@@ -67,7 +67,7 @@
 \DeclareGraphicsExtensions{.jpg}
 
 \begin{center}
-\textbf{\Large An Overview of Deep Residual Neural Networks\newline(ResNets)} \\[6pt]
+\textbf{\Large Evaluation of Machine Learning Techniques in a Crop/Weed Image Dataset\newline(Machine Learning Final Project)} \\[6pt]
 %\textbf{\Large Crop rows segmentation in sugarcane fields through computer vision techniques \newline \newline  Pattern Recognition Final Project} \\[6pt]
   Fabio Andres Herrera \\[6pt]
   Escuela de Ingeniería de Sistemas y Computación\\
@@ -77,52 +77,98 @@
 \end{center}
 
 \begin{abstract}
-	
-This paper presents an overview of Deep Residual Neural Networks 
+\noindent	
+This paper presents a simple academic evaluation of some machine learning (supervised and unsupervised) techniques using a computer vision approach applied to a dataset of top-down looking images of row cultures (organic carrots). The dataset comprises 60 images with annotations with a ground truth vegetation segmentation mask and manual annotation of the plant type (crop vs. weed).
+
+
 \end{abstract}
 
-\subparagraph{\textit{Key words.}}\textit{ Deep Learning, RNN, ResNets, }
+\subparagraph{\textit{Key words.}}\textit{Computer Vision, Machine Learning, Phenotyping, Precision Agriculture}
 
-%\subparagraph{AMS subject classifications (2010).}
-%Provide up to five subject classification codes here;
-%search for the string ``MSC'' at \url"www.ams.org".
+
 
 \section{Introduction}
 
-
-Several recent papers that show the potential of residual neural networks. Residual neural networks, or ResNets (Deep Residual Learning for Image Recognition), are a technique Microsoft introduced in 2015. The ResNet technique allows deeper neural networks to be effectively trained. ResNets won the ImageNet competition in December with a 3.57\% error score. Recently, researchers have published several papers augmenting the ResNet model with some interesting improvements.
-
-ResNets tweak the mathematical formula for a deep neural network. They tweak the layers’ equations to introduce identity connections between them. The identity function is simply $id(x) = x;$ given an input $x$ it returns the same value $x$ as output. A layer in a traditional neural network learns to calculate a function $y = f(x)$. A residual neural network layer approximately calculates $y = f(x) + id(x) = f(x) + x$. Identity connections enable the layers to learn incremental, or residual, representations. The layers can start as the identity function and gradually transform to be more complex. Such evolution occurs if the parameters for the $f(x)$ part begin at or near \textbf{zero}.
+Machine learning is the science of getting computers to act without being explicitly programmed\cite{5392560}. Machine learning is about learning to do better in the future based on what was experienced in the past. The emphasis of machine learning is on automatic methods. In other words, the goal is to devise learning algorithms that do the learning automatically without human intervention or assistance. The process of learning begins with observations or data, such as examples, direct experience, or instruction, in order to look for patterns in data and make better decisions in the future based on the examples that we provide. The primary aim is to allow the computers learn automatically without human intervention or assistance and adjust actions accordingly. Machine learning is a core subarea of artificial intelligence. Machine learning algorithms are often categorized as supervised or unsupervised.
 
 
+\subsection{Supervised machine learning }
+
+Supervised machine learning algorithms can apply what has been learned in the past to new data using labeled examples to predict future events. Starting from the analysis of a known training dataset, the learning algorithm produces an inferred function to make predictions about the output values. The system is able to provide targets for any new input after sufficient training. The learning algorithm can also compare its output with the correct, intended output and find errors in order to modify the model accordingly.
+
+\subsection{Unsupervised machine learning }
+
+In contrast, unsupervised machine learning algorithms are used when the information used to train is neither classified nor labeled. Unsupervised learning studies how systems can infer a function to describe a hidden structure from unlabeled data. The system doesn’t figure out the right output, but it explores the data and can draw inferences from datasets to describe hidden structures from unlabeled data.
+
+\subsection{Semi-supervised machine learning }
+
+ fall somewhere in between supervised and unsupervised learning, since they use both labeled and unlabeled data for training – typically a small amount of labeled data and a large amount of unlabeled data. The systems that use this method are able to considerably improve learning accuracy. Usually, semi-supervised learning is chosen when the acquired labeled data requires skilled and relevant resources in order to train it / learn from it. Otherwise, acquiringunlabeled data generally doesn’t require additional resources.
+ 
+\subsection{Reinforcement machine learning }
+Is a learning method that interacts with its environment by producing actions and discovers errors or rewards. Trial and error search and delayed reward are the most relevant characteristics of reinforcement learning. This method allows machines and software agents to automatically determine the ideal behavior within a specific context in order to maximize its performance. Simple reward feedback is required for the agent to learn which action is best; this is known as the reinforcement signal.
+
+
+Machine learning enables analysis of massive quantities of data. While it generally delivers faster, more accurate results in order to identify profitable opportunities or dangerous risks, it may also require additional time and resources to train it properly. Combining machine learning with AI and cognitive technologies can make it even more effective in processing large volumes of information.
+
+
+\subsection{Image Dataset}
+
+The dataset comprises field images in top-down view that were acquired with the autonomous field robot Bonirob in an organic carrot farm in 2013. The images were captured while the crop was in growth stages where one
+or more true leaves were present. Some hours after data acquisition the farmer applied manual weed control on this field. Here we consider organic carrots, however similar manual weed control activities are also required for chicory, onions and other cultures. All images are annotated and a ground truth vegetation segmentation mask is available together with crop /weed annotations. Section 3 provides more details about the data, metadata and acquisition conditions
+
+
+\begin{figure}[H] \centering
+	\includegraphics[width=1\textwidth]{image1.png}
+	\caption{Sample images from the dataset (a) with ground truth vegetation masks
+		and crop /weed annotations. The annotation images (b) and (c) are supplied for
+		every image of the dataset. Best viewed in color. Modified from \cite{Haug2015}. }
+	\label{figure1}
+\end{figure}
+
+
+\begin{figure}[H] \centering
+	\caption{Description of camera system and acquisition parameters. Modified from \cite{Haug2015}. }
+	\includegraphics[width=0.6\textwidth]{image2.png}
+	\label{figure2}
+\end{figure}
+
+
+\subsection{File metadata}
 
 
 
-The robustness of ResNets has since been proven by various visual recognition tasks and by non-visual tasks involving speech and language\cite{Michael:Online}.
+
+\cite{Haug2015}
 
 
 
 
 
-\cite{He2016}, \cite{Veit2016}, \cite{Wu2017}, \cite{Xie2016} , \cite{Zagoruyko2016}, \cite{Long2016}
-, \cite{Huang2016}
 
 
-\section{Background} \label{secimport}
+\section{Bag of Words (BoW)} \label{bow}
 
-Notice carefully the use of \LaTeX's powerful capabilities for automatic
-cross-referencing demonstrated
-for equations, tables, and figures
-in the following subsection,
-Subsection~\ref{subsecexample}.
+To represent an image using the BoW model, an image can be treated as a document. Similarly, "words" in images need to be defined too. To achieve this, it usually includes following three steps: feature detection, feature description, and codebook generation. A definition of the BoW model can be the "histogram representation based on independent features".
+
+\textbf{Feature representation}
+After feature detection, each image is abstracted by several local patches. Feature representation methods deal with how to represent the patches as numerical vectors. These vectors are called feature descriptors. A good descriptor should have the ability to handle intensity, rotation, scale and affine variations to some extent. One of the most famous descriptors is Scale-invariant feature transform (SIFT). SIFT converts each patch to 128-dimensional vector. After this step, each image is a collection of vectors of the same dimension (128 for SIFT), where the order of different vectors is of no importance.
+
+\textbf{Codebook generation}
+The final step for the BoW model is to convert vector-represented patches to "codewords" (analogous to words in text documents), which also produces a "codebook" (analogy to a word dictionary). A codeword can be considered as a representative of several similar patches. One simple method is performing k-means clustering over all the vectors.Codewords are then defined as the centers of the learned clusters. The number of the clusters is the codebook size (analogous to the size of the word dictionary).
+
+Thus, each patch in an image is mapped to a certain codeword through the clustering process and the image can be represented by the histogram of the codewords.
+
+
+
+
 
 \subsection{Neural Networks}
 
-\begin{figure}[H] \centering
-	\includegraphics[width=0.9\textwidth]{image7.png}
-	\caption{Feed-forward networks (left) and Recurrent neural networks (right) .  Taken from  }
-	\label{figre7}
-\end{figure}
+%\begin{figure}[H] \centering
+%	\includegraphics[width=0.9\textwidth]{image7.png}
+%	\caption{Feed-forward networks (left) and Recurrent neural networks (right) .  Taken from  }
+%	\label{figre7}
+%\end{figure}
 %image credit 	http://mesin-belajar.blogspot.com/2016/01/a-brief-history-of-neural-nets-and-deep_84.html
 
 
@@ -302,11 +348,11 @@ In general, in a deep convolutional neural network, several layers are stacked a
 
 In recent years Deep Convolutional Neural Networks (CNN) demonstrated a high performance on image classification tasks. Experiments showed that the number of layers (depth) in a CNN is correlated to the performance in image recognition tasks.  This led to the idea that deeper networks should perform better. Creating deep networks is not as simple as adding layers. One problem is the vanishing/exploding gradients, which hamper the convergence. This obstacle can be overcome by normalized initialization and intermediate normalization layers, so that networks start converging for stochastic gradient descend (SGD) using the backpropagation algorithm. Another problem is the degradation, if the depth of a network increases, the accuracy gets saturated and then degrades rapidly. (Figure \ref{figre6}) A way to counter the degradation problem is using residual learning. 
 
-\begin{figure}[H] \centering
-	\includegraphics[width=0.6\textwidth]{image6.png}
-	\caption{Training error (left) and test error (right) on CIFAR-10 with 20-layer and 56-layer "plain" networks reproduced from XXXX }
-	\label{figre6}
-\end{figure}
+%\begin{figure}[H] \centering
+%	\includegraphics[width=0.6\textwidth]{image6.png}
+%	\caption{Training error (left) and test error (right) on CIFAR-10 with 20-layer and 56-layer "plain" networks reproduced from XXXX }
+%	\label{figre6}
+%\end{figure}
 
 
 The ResNet technique has shown deeper neural network models can train successfully. The model Microsoft used in ImageNet 2015 has 152 layers. That’s significantly deeper than previous competition winners. Deeper models tend to hit obstacles during the training process. The gradient signal vanishes with increasing network depth. But the identity connections in ResNets propagate the gradient throughout the model.
@@ -318,41 +364,41 @@ Which brings me to the first paper, Benefits of depth in neural networks by Matu
 The second paper I’d like to highlight is Identity Mappings in Deep Residual Networks, by He et al. These are the original authors of the ResNet paper. The original technique only approximated identity connections between layers. Really, the layers still used nonlinear activations after the identity connections. These nonlinearities impede gradient propagation. The new paper runs with the identity connection concept. The signal propagates unchanged throughout the entire network. The activation functions between layers are absent. The new technique improves training and test performance.
 
 
-\begin{figure} \centering
-  \includegraphics[width=0.9\textwidth]{image1.png}
-  \caption{Original versus proposed ResNet unit, and performance.}
-  \label{figsolplot}
-\end{figure}
+%\begin{figure} \centering
+%  \includegraphics[width=0.9\textwidth]{image1.png}
+%  \caption{Original versus proposed ResNet unit, and performance.}
+%  \label{figsolplot}
+%\end{figure}
 
 The third paper is Resnet in Resnet: Generalizing Residual Architectures, by Targ et al. This paper experiments with additional complexity that runs parallel to the ResNet modules. Essentially, for every ResNet layer, they place a traditional convolutional layer next to it. They allow these parallel layers to exchange information. What results is a fractal ResNet structure. Groups of these modified ResNet modules can coordinate to learn longer-term ResNet structures.
 
-
-\begin{figure} \centering
-	\includegraphics[width=0.9\textwidth]{image2.png}
-	\caption{ResNet in ResNet fractal structure.}
-	\label{figure2}
-\end{figure}
+%
+%\begin{figure} \centering
+%	\includegraphics[width=0.9\textwidth]{image2.png}
+%	\caption{ResNet in ResNet fractal structure.}
+%	\label{figure2}
+%\end{figure}
 
 
 Next, is one of the most interesting papers I’ve seen: Deep Networks with Stochastic Depth, by Huang et al. This paper enables practical training of neural networks with thousands of layers. It modifies the technique dropout to remove layers from the network during training time. Entire layers get dropped at random. The remaining layers must compensate for their missing inputs by relying on lower inputs. Concretely, the technique sets the f(x) component to zero for several random layers, leaving the identity connections. Then the training procedure runs for a single step. Then those layers get reactivated while new ones get zeroed. During training, the depth of the network can be much smaller than normal. This results in fewer calculations and more efficient training throughput. The entire depth of the model is then used at inference time.
 
-
-\begin{figure} \centering
-	\includegraphics[width=0.9\textwidth]{image3.png}
-	\caption{Linear decay of layer dropout probabilities in stochastic depth.}
-	\label{figure3}
-\end{figure}
+%
+%\begin{figure} \centering
+%	\includegraphics[width=0.9\textwidth]{image3.png}
+%	\caption{Linear decay of layer dropout probabilities in stochastic depth.}
+%	\label{figure3}
+%\end{figure}
 
 
 Another paper, Bridging the Gaps Between Residual Learning, Recurrent Neural Networks and Visual Cortex by Qianli Liao and Tomaso Poggio, explores the relationship between recurrent nets and residual nets. It augments recurrent nets with identity connections and shows such models have flexible topologies and improved performance. I find the techniques here to be very similar to two other papers: Neural GPUs Learn Algorithms by Łukasz Kaiser and Ilya Sutskever, and Adaptive Computation Time for Recurrent Neural Networks by Alex Graves.
 
 Finally, the paper Deep Residual Networks with Exponential Linear Unit, by Shah et al., combines exponential linear units, an alternative to rectified linear units, with ResNets to show improved performance, even without batch normalization.
 
-\begin{figure} \centering
-	\includegraphics[width=0.9\textwidth]{image4.png}
-	\caption{Comparison of the learning behavior of (Auhor model) ant the original ResNet model on CIFAR-10 dataset}
-	\label{figure4}
-\end{figure}
+%\begin{figure} \centering
+%	\includegraphics[width=0.9\textwidth]{image4.png}
+%	\caption{Comparison of the learning behavior of (Auhor model) ant the original ResNet model on CIFAR-10 dataset}
+%	\label{figure4}
+%\end{figure}
 
 
 %\subsection{Some Technicalities}
@@ -612,7 +658,7 @@ Deeper neural networks are more difficult to train \cite{Zagoruyko2016}
 
 \section*{Acknowledgments}
 
-To Maria Trujillo Ph.D., a teacher in the course Introduction to pattern recognition for computer vision for its valuable recommendations and its contributions along the semester.
+To Maria Trujillo Ph.D., a teacher in the course fundamentals of multimedia machine learning for its valuable recommendations and its contributions along the semester fall 2017.
  
 %\appendix
 
