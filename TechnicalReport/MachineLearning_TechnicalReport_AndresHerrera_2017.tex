@@ -94,7 +94,7 @@ This paper presents simple academic exercises which use Bag-of-visual-words mode
 
 \section{Introduction}
 
-Machine learning is the science of getting computers to act without being explicitly programmed\cite{5392560}. Machine learning is about learning to do better in the future based on what was experienced in the past. The process of learning begins with observations or data, such as examples, direct experience, or instruction, in order to look for patterns in data and make better decisions in the future based on the examples that we provide. Machine learning is a core subarea of artificial intelligence. Machine learning algorithms are often categorized as supervised or unsupervised.
+Machine learning is the science of getting computers to act without being explicitly programmed\cite{5392560}. Machine learning is about learning to do better in the future based on what was experienced in the past. The process of learning begins with observations or data, such as examples, direct experience, or instruction, in order to look for patterns in data and make better decisions in the future based on the examples that we provide. Machine learning is a core subarea of artificial intelligence. Machine learning algorithms are often categorized as supervised or unsupervised \cite{Ratsch2004}.
 
 \begin{itemize}
 	\item \textbf{Supervised machine learning :}
@@ -153,17 +153,19 @@ There are literally thousands of learning algorithms available. The key to not g
 
 \subsection{Image Dataset}
 
-The dataset comprises field images in top-down view that were acquired with the autonomous field robot Bonirob\cite{BOSH} in an organic carrot farm in 2013. The images were captured while the crop was in growth stages where one
-or more true leaves were present. All images are annotated and a ground truth vegetation segmentation mask is available together with crop /weed annotations. Figure \ref{figure1} shows a field image (a), a segmentation mask (b) and Crop / weed annotation image (c) even a file in YAML format with a list of polygon vertices and labels.
+The dataset comprises field images in top-down view that were acquired with the autonomous field robot Bonirob\cite{BOSH} in an organic carrot farm in 2013. The images were captured while the crop was in growth stages where one or more true leaves were present. All images are annotated and a ground truth vegetation segmentation mask is available together with crop/weed annotations. Figure \ref{figure1} shows a field image (a), a segmentation mask (b) and Crop/weed annotation image (c) even a file in YAML format with a list of polygon vertices and labels.
 
 \begin{figure}[H] \centering
 	\includegraphics[width=1\textwidth]{image1.png}
 	\caption{Sample images from the dataset (a) with ground truth vegetation masks
 		and crop /weed annotations. The annotation images (b) and (c) are supplied for
-		every image of the dataset. Best viewed in color. Modified from \cite{Haug2015}. }
+		every image of the dataset. Modified from \cite{Haug2015}. }
 	\label{figure1}
 \end{figure}
 
+
+\noindent
+The dataset images ware acquired by a JAI multi-spectral camera that captures both visible and near-infrared light was used and mounted on the robot. The camera was looking downwards and the area under the robot was shaded and artificially lit to avoid changing lighting conditions. Figure \ref{figure2} describes the camera setup and its configuration.
 
 \begin{figure}[H] \centering
 	\caption{Description of camera system and acquisition parameters. Modified from \cite{Haug2015}. }
@@ -172,38 +174,72 @@ or more true leaves were present. All images are annotated and a ground truth ve
 \end{figure}
 
 
-\subsection{File metadata}
+The Crop /Weed Field Image Dataset (CWFID) was downloaded from \url{http://github.com/cwfid}
 
 
+\section{Bag of Visual Words (BovW)} \label{bow}
+
+To represent an image using the BoW model, an image can be treated as a document. Similarly, "words" in images need to be defined too. To achieve this, it usually includes following three steps: \textbf{feature detection}, \textbf{feature description}, and \textbf{codebook generation}. A definition of the BoW model can be the "histogram representation based on independent features".
+
+\begin{itemize}
+
+\item \textbf{Feature representation} After feature detection, each image is abstracted by several local patches. Feature representation methods deal with how to represent the patches as numerical vectors. These vectors are called feature descriptors. A good descriptor should have the ability to handle intensity, rotation, scale and affine variations to some extent. One of the most famous descriptors is Scale-invariant feature transform (SIFT). SIFT converts each patch to 128-dimensional vector. After this step, each image is a collection of vectors of the same dimension (128 for SIFT), where the order of different vectors is of no importance.
+
+\item \textbf{Codebook generation} The final step for the BoW model is to convert vector-represented patches to "codewords" (analogous to words in text documents), which also produces a "codebook" (analogy to a word dictionary). A codeword can be considered as a representative of several similar patches. One simple method is performing k-means clustering over all the vectors.Codewords are then defined as the centers of the learned clusters. The number of the clusters is the codebook size (analogous to the size of the word dictionary).
+
+\end{itemize}
+
+Thus, each patch in an image is mapped to a certain codeword through the clustering process and the image can be represented by the histogram of the codewords.
 
 
-\cite{Haug2015}, 
-
-\cite{Domingos2012}
-
-\cite{Ratsch2004}
 
 
 \section{SIFT Descriptors} \label{sift}
+The scale-invariant feature transform (SIFT) is an algorithm in computer vision to detect and describe local features in images. A SIFT descriptor is a 3-D spatial histogram of the image gradients in characterizing the appearance of a keypoint. The gradient at each pixel is regarded as a sample of a three-dimensional elementary feature vector, formed by the pixel location and the gradient orientation. Samples are weighed by the gradient norm and accumulated in a 3-D histogram h, which (up to normalization and clamping) forms the SIFT descriptor of the region. An additional Gaussian weighting function is applied to give less importance to gradients farther away from the keypoint center. Orientations are quantized into eight bins and the spatial coordinates into four each, as seen in Figure \ref{figure6}:
+
+\begin{figure}[H] \centering
+	\caption{The SIFT descriptor is a spatial histogram of the image gradient \cite{sift}. }
+	\includegraphics[width=0.6\textwidth]{image6.png}
+	\label{figure6}
+\end{figure}
 
 
-\section{Bag of Visual Words (BoW)} \label{bow}
-
-To represent an image using the BoW model, an image can be treated as a document. Similarly, "words" in images need to be defined too. To achieve this, it usually includes following three steps: feature detection, feature description, and codebook generation. A definition of the BoW model can be the "histogram representation based on independent features".
-
-\textbf{Feature representation}
-After feature detection, each image is abstracted by several local patches. Feature representation methods deal with how to represent the patches as numerical vectors. These vectors are called feature descriptors. A good descriptor should have the ability to handle intensity, rotation, scale and affine variations to some extent. One of the most famous descriptors is Scale-invariant feature transform (SIFT). SIFT converts each patch to 128-dimensional vector. After this step, each image is a collection of vectors of the same dimension (128 for SIFT), where the order of different vectors is of no importance.
-
-\textbf{Codebook generation}
-The final step for the BoW model is to convert vector-represented patches to "codewords" (analogous to words in text documents), which also produces a "codebook" (analogy to a word dictionary). A codeword can be considered as a representative of several similar patches. One simple method is performing k-means clustering over all the vectors.Codewords are then defined as the centers of the learned clusters. The number of the clusters is the codebook size (analogous to the size of the word dictionary).
-
-Thus, each patch in an image is mapped to a certain codeword through the clustering process and the image can be represented by the histogram of the codewords.
 
 
 \section{VLAD} \label{vlad}
 
 
 \section{Fisher Vector} \label{fv}
+
+
+\section{Classification Algorithms} \label{classalgs}
+
+\subsection{k-Nearest Neighbor Classification} \label{knn}
+The simplest method is the k-Nearest Neighbor classifier. Here the k points of the training data closest to the test point are found, and a label is given to the test point by a majority vote between the k points. This method is highly intuitive and attains – given its simplicity – remarkably low classification errors, but it is computationally expensive and requires a large memory to store the training data.
+
+\subsection{Linear Discriminant Analysis} \label{lda}
+computes a hyperplane in the input space that minimizes the within-class variance and maximizes the between class distance. It can be efficiently computed in the linear case even with large data sets. However, often a linear separation is not sufficient. Nonlinear extensions by using kernels exist, however, making it difficult to apply it to problems with large training sets.
+
+\subsection{Decision Trees} \label{dectree}
+These algorithms solve the classification problem by repeatedly partitioning the in put space, so as to build a tree whose nodes are as pure as possible (that is, they contain points of a single class). Classification of a
+new test point is achieved by moving from top to bottom along the branches of the tree, starting from the root node, until a terminal node is reached. Decision trees are simple yet effective classification schemes for small datasets. The computational complexity scales unfavorably with the number of dimensions of the data. Large datasets tend to result in complicated trees, which in turn require a large memory for storage. 
+
+
+\subsection{Neural Networks} \label{neuralnetwork}
+
+Neural networks are a computational model inspired by the connectivity of neurons in animate nervous systems.
+A further boost to their popularity came with the proof that they can approximate any function mapping via the Universal Approximation Theorem. 
+
+\begin{figure}[H] \centering
+	\includegraphics[width=1\textwidth]{image5.png}
+	\caption{A schematic diagram of a neural network. Each circle in the hidden and output layer is a computational element known as a neuron. Modified from \cite{Ratsch2004}. }
+	\label{figure5}
+\end{figure}
+
+
+A simple scheme for a neural network is shown in Figure \ref{figure5}. Each circle denotes a computational element referred to as a neuron, which computes a weighted sum of its inputs, and possibly performs a nonlinear function on this sum. If certain classes of nonlinear functions are used, the function computed by the network can approximate any function (specifically a mapping from the training patterns to the training targets), provided enough neurons exist in the network and enough training examples are provided.
+
+
 
 
 
