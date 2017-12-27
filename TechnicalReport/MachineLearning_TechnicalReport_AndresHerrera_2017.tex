@@ -224,6 +224,10 @@ computes a hyperplane in the input space that minimizes the within-class varianc
 These algorithms solve the classification problem by repeatedly partitioning the in put space, so as to build a tree whose nodes are as pure as possible (that is, they contain points of a single class). Classification of a
 new test point is achieved by moving from top to bottom along the branches of the tree, starting from the root node, until a terminal node is reached. Decision trees are simple yet effective classification schemes for small datasets. The computational complexity scales unfavorably with the number of dimensions of the data. Large datasets tend to result in complicated trees, which in turn require a large memory for storage. 
 
+\subsection{Random Forest} \label{dectree}
+
+
+
 
 \subsection{Neural Networks} \label{neuralnetwork}
 
@@ -248,9 +252,83 @@ A simple scheme for a neural network is shown in Figure \ref{figure5}. Each circ
 
 
 
-\section{Repository}
+\section{Source Code Repository}
 
-\href{https://github.com/AndresHerrera/Proyecto_MachineLearning/tree/master/JupyterNotebook} {Jupyter NoteBook GitHub}
+Python code blocks and running results are available on GitHub over Jupyter Notebook
+
+\subsection{K-nearest Neighbors Classifier }
+
+\begin{itemize}
+	\item {\textbf{BagOfVisualWords - KN :} } \url{https://github.com/AndresHerrera/Proyecto_MachineLearning/blob/master/JupyterNotebook/BagOfVisualWords_KN.ipynb}
+	
+	\item {\textbf{Fisher Vector - KN :} } \url{	https://github.com/AndresHerrera/Proyecto_MachineLearning/blob/master/JupyterNotebook/FisherVector_KN.ipynb}
+	
+	\item {\textbf{VLAD - KN :} } \url{	https://github.com/AndresHerrera/Proyecto_MachineLearning/blob/master/JupyterNotebook/VLAD_KN.ipynb}
+		
+\end{itemize}
+
+\subsection{Gaussian Naive Bayes Classifier }
+
+\begin{itemize}
+	\item {\textbf{BagOfVisualWords - NB :} } \url{https://github.com/AndresHerrera/Proyecto_MachineLearning/blob/master/JupyterNotebook/BagOfVisualWords_NB.ipynb}
+	
+	\item {\textbf{Fisher Vector - NB :} } \url{	https://github.com/AndresHerrera/Proyecto_MachineLearning/blob/master/JupyterNotebook/FisherVector_NB.ipynb}
+	
+	\item {\textbf{VLAD - NB :} } \url{	https://github.com/AndresHerrera/Proyecto_MachineLearning/blob/master/JupyterNotebook/VLAD_NB.ipynb}
+	
+\end{itemize}
+
+\subsection{Random Forest Classifier }
+
+\begin{itemize}
+	\item {\textbf{BagOfVisualWords - RF :} } \url{https://github.com/AndresHerrera/Proyecto_MachineLearning/blob/master/JupyterNotebook/BagOfVisualWords_RF.ipynb}
+	
+	\item {\textbf{Fisher Vector - RF :} } \url{	https://github.com/AndresHerrera/Proyecto_MachineLearning/blob/master/JupyterNotebook/FisherVector_RF.ipynb}
+	
+	\item {\textbf{VLAD - RF :} } \url{	https://github.com/AndresHerrera/Proyecto_MachineLearning/blob/master/JupyterNotebook/VLAD_RF.ipynb}
+	
+\end{itemize}
+
+
+\subsection{One-vs-the-rest Classifier }
+
+\begin{itemize}
+	\item {\textbf{BagOfVisualWords - OVR :} } \url{https://github.com/AndresHerrera/Proyecto_MachineLearning/blob/master/JupyterNotebook/BagOfVisualWords_OVR.ipynb}
+	
+	\item {\textbf{Fisher Vector - OVR :} } \url{	https://github.com/AndresHerrera/Proyecto_MachineLearning/blob/master/JupyterNotebook/FisherVector_OVR.ipynb}
+	
+	\item {\textbf{VLAD - OVR :} } \url{	https://github.com/AndresHerrera/Proyecto_MachineLearning/blob/master/JupyterNotebook/VLAD_OVR.ipynb}
+	
+\end{itemize}
+
+
+\subsection{Multi-layer Perceptron Classifier }
+
+\begin{itemize}
+	\item {\textbf{BagOfVisualWords - MLP :} } \url{https://github.com/AndresHerrera/Proyecto_MachineLearning/blob/master/JupyterNotebook/BagOfVisualWords_MLP.ipynb}
+	
+	\item {\textbf{Fisher Vector - MLP :} } \url{	https://github.com/AndresHerrera/Proyecto_MachineLearning/blob/master/JupyterNotebook/FisherVector_MLP.ipynb}
+	
+	\item {\textbf{VLAD - MLP :} } \url{	https://github.com/AndresHerrera/Proyecto_MachineLearning/blob/master/JupyterNotebook/VLAD_MLP.ipynb}
+	
+\end{itemize}
+
+
+
+
+
+
+\subsection{Jupyter Notebooks}
+\begin{itemize}
+	\item {\textbf{All Jupyter NoteBook files on GitHub:} } \url{https://github.com/AndresHerrera/Proyecto_MachineLearning/tree/master/JupyterNotebook} 
+\end{itemize}
+
+	
+	
+	
+
+
+
 
 
 \section{Conclusions}

@@ -8,7 +8,14 @@
 \BOOKMARK [2][-]{subsection.6.1}{k-Nearest Neighbor Classification}{section.6}% 8
 \BOOKMARK [2][-]{subsection.6.2}{Linear Discriminant Analysis}{section.6}% 9
 \BOOKMARK [2][-]{subsection.6.3}{Decision Trees}{section.6}% 10
-\BOOKMARK [2][-]{subsection.6.4}{Neural Networks}{section.6}% 11
-\BOOKMARK [1][-]{section.7}{Applications}{}% 12
-\BOOKMARK [1][-]{section.8}{Repository}{}% 13
-\BOOKMARK [1][-]{section.9}{Conclusions}{}% 14
+\BOOKMARK [2][-]{subsection.6.4}{Random Forest}{section.6}% 11
+\BOOKMARK [2][-]{subsection.6.5}{Neural Networks}{section.6}% 12
+\BOOKMARK [1][-]{section.7}{Applications}{}% 13
+\BOOKMARK [1][-]{section.8}{Source Code Repository}{}% 14
+\BOOKMARK [2][-]{subsection.8.1}{K-nearest Neighbors Classifier }{section.8}% 15
+\BOOKMARK [2][-]{subsection.8.2}{Gaussian Naive Bayes Classifier }{section.8}% 16
+\BOOKMARK [2][-]{subsection.8.3}{Random Forest Classifier }{section.8}% 17
+\BOOKMARK [2][-]{subsection.8.4}{One-vs-the-rest Classifier }{section.8}% 18
+\BOOKMARK [2][-]{subsection.8.5}{Multi-layer Perceptron Classifier }{section.8}% 19
+\BOOKMARK [2][-]{subsection.8.6}{Jupyter Notebooks}{section.8}% 20
+\BOOKMARK [1][-]{section.9}{Conclusions}{}% 21
