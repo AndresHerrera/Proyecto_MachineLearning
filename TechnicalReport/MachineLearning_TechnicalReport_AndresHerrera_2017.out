@@ -6,13 +6,13 @@
 \BOOKMARK [1][-]{section.5}{Fisher Vector}{}% 6
 \BOOKMARK [1][-]{section.6}{Classification Algorithms}{}% 7
 \BOOKMARK [2][-]{subsection.6.1}{k-Nearest Neighbor Classification}{section.6}% 8
-\BOOKMARK [2][-]{subsection.6.2}{Linear Discriminant Analysis}{section.6}% 9
-\BOOKMARK [2][-]{subsection.6.3}{Decision Trees}{section.6}% 10
-\BOOKMARK [2][-]{subsection.6.4}{Random Forest}{section.6}% 11
-\BOOKMARK [2][-]{subsection.6.5}{Neural Networks}{section.6}% 12
-\BOOKMARK [1][-]{section.7}{Comparison}{}% 13
-\BOOKMARK [1][-]{section.8}{Confusion Matrix}{}% 14
-\BOOKMARK [2][-]{subsection.8.1}{BagOfVisualWords}{section.8}% 15
+\BOOKMARK [2][-]{subsection.6.2}{Random Forest}{section.6}% 9
+\BOOKMARK [2][-]{subsection.6.3}{Neural Networks}{section.6}% 10
+\BOOKMARK [1][-]{section.7}{Comparison}{}% 11
+\BOOKMARK [1][-]{section.8}{Confusion Matrix}{}% 12
+\BOOKMARK [2][-]{subsection.8.1}{BagOfVisualWords}{section.8}% 13
+\BOOKMARK [2][-]{subsection.8.2}{Fisher Vector}{section.8}% 14
+\BOOKMARK [2][-]{subsection.8.3}{VLAD}{section.8}% 15
 \BOOKMARK [1][-]{section.9}{Source Code Repository}{}% 16
 \BOOKMARK [2][-]{subsection.9.1}{K-nearest Neighbors Classifier }{section.9}% 17
 \BOOKMARK [2][-]{subsection.9.2}{Gaussian Naive Bayes Classifier }{section.9}% 18

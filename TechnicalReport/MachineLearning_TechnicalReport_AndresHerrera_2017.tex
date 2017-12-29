@@ -232,7 +232,7 @@ Thus, each patch in an image is mapped to a certain codeword through the cluster
 
 \section{VLAD} \label{vlad}
 
-VLAD is constructed as follows: regions are extracted from an image using an affine invariant detector, and described using the 128-D SIFT descriptor. Each descriptor is then assigned to the closest cluster of a vocabulary of size k (where k is typically 64 or 256, so that clusters are quite coarse). For each of the k clusters, the residuals (vector differences between descriptors and cluster centers) are accumulated, and the k 128-D sums of residuals are concatenated into a single k × 128 dimensional descriptor \cite{Arandjelovic2013}.The vector of locally aggregated descriptors (VLAD) is an encoding technique that produces a fixed-length vector representation v from a set $X = {x1, . . . , xn}$ of n local d-dimensional descriptors, e.g., SIFTs, extracted from a given image \cite{Delhumeau2013}.
+VLAD is constructed as follows: regions are extracted from an image using an affine invariant detector, and described using the 128-D SIFT descriptor. Each descriptor is then assigned to the closest cluster of a vocabulary of size $k$ (where $k$ is typically 64 or 256, so that clusters are quite coarse). For each of the k clusters, the residuals (vector differences between descriptors and cluster centers) are accumulated, and the $k$ 128-D sums of residuals are concatenated into a single $k$ × 128 dimensional descriptor \cite{Arandjelovic2013}.The vector of locally aggregated descriptors (VLAD) is an encoding technique that produces a fixed-length vector representation $v$ from a set $X = {x1, . . . , xn}$ of n local d-dimensional descriptors, e.g., SIFTs, extracted from a given image \cite{Delhumeau2013}.
 
 \section{Fisher Vector} \label{fv}
 
@@ -244,15 +244,16 @@ VLAD is constructed as follows: regions are extracted from an image using an aff
 \subsection{k-Nearest Neighbor Classification} \label{knn}
 The simplest method is the k-Nearest Neighbor classifier. Here the k points of the training data closest to the test point are found, and a label is given to the test point by a majority vote between the k points. This method is highly intuitive and attains – given its simplicity – remarkably low classification errors, but it is computationally expensive and requires a large memory to store the training data.
 
-\subsection{Linear Discriminant Analysis} \label{lda}
-computes a hyperplane in the input space that minimizes the within-class variance and maximizes the between class distance. It can be efficiently computed in the linear case even with large data sets. However, often a linear separation is not sufficient. Nonlinear extensions by using kernels exist, however, making it difficult to apply it to problems with large training sets.
+%\subsection{Linear Discriminant Analysis} \label{lda}
+%computes a hyperplane in the input space that minimizes the within-class variance and maximizes the between class distance. It can be efficiently computed in the linear case even with large data sets. However, often a linear separation is not sufficient. Nonlinear extensions by using kernels exist, however, making it difficult to apply it to problems with large training sets.
 
-\subsection{Decision Trees} \label{dectree}
-These algorithms solve the classification problem by repeatedly partitioning the in put space, so as to build a tree whose nodes are as pure as possible (that is, they contain points of a single class). Classification of a
-new test point is achieved by moving from top to bottom along the branches of the tree, starting from the root node, until a terminal node is reached. Decision trees are simple yet effective classification schemes for small datasets. The computational complexity scales unfavorably with the number of dimensions of the data. Large datasets tend to result in complicated trees, which in turn require a large memory for storage. 
+%\subsection{Decision Trees} \label{dectree}
+%These algorithms solve the classification problem by repeatedly partitioning the in put space, so as to build a tree whose nodes are as pure as possible (that is, they contain points of a single class). Classification of a
+%new test point is achieved by moving from top to bottom along the branches of the tree, starting from the root node, until a terminal node is reached. Decision trees are simple yet effective classification schemes for small datasets. The computational complexity scales unfavorably with the number of dimensions of the data. Large datasets tend to result in complicated trees, which in turn require a large memory for storage. 
 
-\subsection{Random Forest} \label{dectree}
+\subsection{Random Forest} \label{randomf}
 
+Random forests is an ensemble model which means that it uses the results from many different models to calculate a response. In most cases the result from an ensemble model will be better than the result from any one of the individual models. In the case of random forests, several decision trees are created (grown) and the response is calculated based on the outcome of all of the decision trees \cite{Horning2010}.   A random forest multi-way classifier consists of a number of trees, with each tree grown using some form of randomization. The leaf nodes of each tree are labeled by estimates of the posterior distribution over the image classes. Each internal node contains a test that best splits the space of data to be classified. An image is classified by sending it down every tree and aggregating the reached leaf distributions. Randomness can be injected at two points during training: in subsampling the training data so that each tree is grown using a different subset; and in selecting the node tests \cite{Bosch2007}.
 
 
 
@@ -273,6 +274,13 @@ A simple scheme for a neural network is shown in Figure \ref{figure5}. Each circ
 
 
 \section{Comparison} \label{Comparison}
+
+
+\begin{figure}[H] \centering
+	\caption{comparison of machine learning classifiers over different image descriptors. }
+	\includegraphics[width=1\textwidth]{class.png}
+	\label{class}
+\end{figure}
 
 
 \section{Confusion Matrix} \label{cmatrix}
@@ -309,6 +317,70 @@ A simple scheme for a neural network is shown in Figure \ref{figure5}. Each circ
 	\label{m5}
 \end{figure}
 
+\subsection{Fisher Vector}
+
+\begin{figure}[H] \centering
+	\caption{Confusion matrix for K-nearest neighbors classifier. }
+	\includegraphics[width=1\textwidth]{m6.png}
+	\label{m6}
+\end{figure}
+
+\begin{figure}[H] \centering
+	\caption{Confusion matrix for Multi-layer Perceptron classifier. }
+	\includegraphics[width=1\textwidth]{m7.png}
+	\label{m7}
+\end{figure}
+
+\begin{figure}[H] \centering
+	\caption{Confusion matrix for Gaussian Naive Bayes classifier. }
+	\includegraphics[width=1\textwidth]{m8.png}
+	\label{m8}
+\end{figure}
+
+\begin{figure}[H] \centering
+	\caption{Confusion matrix for One-vs-the-rest classifier. }
+	\includegraphics[width=1\textwidth]{m9.png}
+	\label{m9}
+\end{figure}
+
+\begin{figure}[H] \centering
+	\caption{Confusion matrix for Random Forest classifier. }
+	\includegraphics[width=1\textwidth]{m10.png}
+	\label{m10}
+\end{figure}
+
+
+\subsection{VLAD}
+
+\begin{figure}[H] \centering
+	\caption{Confusion matrix for K-nearest neighbors classifier. }
+	\includegraphics[width=1\textwidth]{m11.png}
+	\label{m11}
+\end{figure}
+
+\begin{figure}[H] \centering
+	\caption{Confusion matrix for Multi-layer Perceptron classifier. }
+	\includegraphics[width=1\textwidth]{m12.png}
+	\label{m12}
+\end{figure}
+
+\begin{figure}[H] \centering
+	\caption{Confusion matrix for Gaussian Naive Bayes classifier. }
+	\includegraphics[width=1\textwidth]{m13.png}
+	\label{m13}
+\end{figure}
+
+\begin{figure}[H] \centering
+	\caption{Confusion matrix for One-vs-the-rest classifier. }
+	\includegraphics[width=1\textwidth]{m14.png}
+	\label{m14}
+\end{figure}
+
+\begin{figure}[H] \centering
+	\caption{Confusion matrix for Random Forest classifier. }
+	\includegraphics[width=1\textwidth]{m15.png}
+	\label{m15}
+\end{figure}
 
 
 
