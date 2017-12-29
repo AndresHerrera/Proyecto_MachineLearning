@@ -10,6 +10,15 @@
 \usepackage[pdftex]{graphicx}
 \usepackage{hyperref}
 
+\usepackage{xcolor}
+\hypersetup{
+	colorlinks,
+	linkcolor={red!50!black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}
+}
+
+
 % horizontal margins: 1.0 + 6.5 + 1.0 = 8.5
 \setlength{\oddsidemargin}{0.0in}
 \setlength{\textwidth}{6.5in}
@@ -82,7 +91,7 @@
 
 \begin{abstract}
 \noindent	
-This paper presents simple academic exercises which use Bag-of-visual-words model (BOW), VLAD image representation and Fisher Vector encoding with some machine learning techniques applied for image classification in Crop/Weed Field Image Dataset (CWFID) of top-down looking images of row cultures (organic carrots). To allow comparison of different algorithms a confusion matrix is used as an evaluation metrics for crop /weed classification.
+This report presents a simple academic exercise which uses Bag-of-visual-words model (BOW), VLAD image representation and Fisher Vector encoding with some machine learning techniques applied for image classification in Crop/Weed Field Image Dataset (CWFID) of top-down looking images of row cultures (organic carrots). A  mean accuracy on the given test data and labels is used as an evaluation metric to allow comparison of different algorithms used for crop /weed classification.
 
 %. The Crop /Weed Field Image Dataset (CWFID) comprises 60 images with annotations with a ground truth vegetation segmentation mask and manual annotation of the plant type (crop vs. weed)
 
@@ -173,8 +182,30 @@ The dataset images ware acquired by a JAI multi-spectral camera that captures bo
 	\label{figure2}
 \end{figure}
 
+\noindent
+The Crop /Weed Field Image Dataset (CWFID) was downloaded from:
+\begin{itemize}
+	\item {\textbf{CWFID Image Dataset:} } \url{http://github.com/cwfid}
+	
+\end{itemize}
 
-The Crop /Weed Field Image Dataset (CWFID) was downloaded from \url{http://github.com/cwfid}
+\noindent
+The following Jupyter Notebook file shows how the files were read 
+
+\begin{itemize}
+	\item {\textbf{Reading Crop and Weed Dataset:} } \url{https://github.com/AndresHerrera/Proyecto_MachineLearning/blob/master/JupyterNotebook/ReadCropWeedDataset.ipynb}
+	
+\end{itemize}
+
+\section{SIFT Descriptors} \label{sift}
+The scale-invariant feature transform (SIFT) is an algorithm in computer vision to detect and describe local features in images. A SIFT descriptor is a 3-D spatial histogram of the image gradients in characterizing the appearance of a keypoint. The gradient at each pixel is regarded as a sample of a three-dimensional elementary feature vector, formed by the pixel location and the gradient orientation. Samples are weighed by the gradient norm and accumulated in a 3-D histogram h, which (up to normalization and clamping) forms the SIFT descriptor of the region. An additional Gaussian weighting function is applied to give less importance to gradients farther away from the keypoint center. Orientations are quantized into eight bins and the spatial coordinates into four each, as seen in Figure \ref{figure6}:
+
+\begin{figure}[H] \centering
+	\caption{The SIFT descriptor is a spatial histogram of the image gradient \cite{sift}. }
+	\includegraphics[width=1\textwidth]{image6.png}
+	\label{figure6}
+\end{figure}
+
 
 
 \section{Bag of Visual Words (BovW)} \label{bow}
@@ -194,22 +225,18 @@ Thus, each patch in an image is mapped to a certain codeword through the cluster
 
 
 
-\section{SIFT Descriptors} \label{sift}
-The scale-invariant feature transform (SIFT) is an algorithm in computer vision to detect and describe local features in images. A SIFT descriptor is a 3-D spatial histogram of the image gradients in characterizing the appearance of a keypoint. The gradient at each pixel is regarded as a sample of a three-dimensional elementary feature vector, formed by the pixel location and the gradient orientation. Samples are weighed by the gradient norm and accumulated in a 3-D histogram h, which (up to normalization and clamping) forms the SIFT descriptor of the region. An additional Gaussian weighting function is applied to give less importance to gradients farther away from the keypoint center. Orientations are quantized into eight bins and the spatial coordinates into four each, as seen in Figure \ref{figure6}:
 
-\begin{figure}[H] \centering
-	\caption{The SIFT descriptor is a spatial histogram of the image gradient \cite{sift}. }
-	\includegraphics[width=1\textwidth]{image6.png}
-	\label{figure6}
-\end{figure}
 
 
 
 
 \section{VLAD} \label{vlad}
 
+VLAD is constructed as follows: regions are extracted from an image using an affine invariant detector, and described using the 128-D SIFT descriptor. Each descriptor is then assigned to the closest cluster of a vocabulary of size k (where k is typically 64 or 256, so that clusters are quite coarse). For each of the k clusters, the residuals (vector differences between descriptors and cluster centers) are accumulated, and the k 128-D sums of residuals are concatenated into a single k × 128 dimensional descriptor \cite{Arandjelovic2013}.The vector of locally aggregated descriptors (VLAD) is an encoding technique that produces a fixed-length vector representation v from a set $X = {x1, . . . , xn}$ of n local d-dimensional descriptors, e.g., SIFTs, extracted from a given image \cite{Delhumeau2013}.
 
 \section{Fisher Vector} \label{fv}
+
+\cite{Sanchez2013}
 
 
 \section{Classification Algorithms} \label{classalgs}
@@ -245,10 +272,44 @@ A simple scheme for a neural network is shown in Figure \ref{figure5}. Each circ
 
 
 
+\section{Comparison} \label{Comparison}
 
 
+\section{Confusion Matrix} \label{cmatrix}
 
-\section{Applications} \label{applications}
+\subsection{BagOfVisualWords}
+
+\begin{figure}[H] \centering
+	\caption{Confusion matrix for K-nearest neighbors classifier. }
+	\includegraphics[width=1\textwidth]{m1.png}
+	\label{m1}
+\end{figure}
+
+\begin{figure}[H] \centering
+	\caption{Confusion matrix for Multi-layer Perceptron classifier. }
+	\includegraphics[width=1\textwidth]{m2.png}
+	\label{m2}
+\end{figure}
+
+\begin{figure}[H] \centering
+	\caption{Confusion matrix for Gaussian Naive Bayes classifier. }
+	\includegraphics[width=1\textwidth]{m3.png}
+	\label{m3}
+\end{figure}
+
+\begin{figure}[H] \centering
+	\caption{Confusion matrix for One-vs-the-rest classifier. }
+	\includegraphics[width=1\textwidth]{m4.png}
+	\label{m4}
+\end{figure}
+
+\begin{figure}[H] \centering
+	\caption{Confusion matrix for Random Forest classifier. }
+	\includegraphics[width=1\textwidth]{m5.png}
+	\label{m5}
+\end{figure}
+
+
 
 
 
@@ -342,7 +403,7 @@ Python code blocks and running results are available on GitHub over Jupyter Note
 
 \section*{Acknowledgments}
 
-To Maria Trujillo Ph.D., a teacher in the course fundamentals of multimedia machine learning for its valuable recommendations and its contributions along the semester fall 2017.
+To Maria Trujillo Ph.D., a teacher in the course Fundamentals of Multimedia Machine Learning for its valuable training along the fall term 2017.
  
 
 \bibliographystyle{siam}
