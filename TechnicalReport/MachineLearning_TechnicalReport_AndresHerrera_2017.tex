@@ -79,7 +79,7 @@
 \begin{center}
 %\textbf{\Large Crop/Weed Classification in (CWFID) Image Dataset using some Machine Learning techniques through image representation in Bag-of-visual-words (BOW), Vector of Locally Aggregated Descriptors (VLAD) and Fisher Vector (FV)\newline\newline(Machine Learning Final Project)} \\[6pt]
 
-\textbf{\Large Machine learning techniques for Crop/Weed classification in (CWFID) image dataset \newline\newline(Machine Learning Final Project)} \\[6pt]
+\textbf{\Large Comparison of some image representation strategies and Machine Learning algorithms for Crop/Weed classification in the (CWFID) image dataset \newline\newline(Machine Learning Final Project)} \\[6pt]
 
 %\textbf{\Large Crop rows segmentation in sugarcane fields through computer vision techniques \newline \newline  Pattern Recognition Final Project} \\[6pt]
   Fabio Andres Herrera \\[6pt]
@@ -91,7 +91,7 @@
 
 \begin{abstract}
 \noindent	
-This report presents a simple academic exercise which uses Bag-of-visual-words model (BOW), VLAD image representation and Fisher Vector encoding with some machine learning techniques applied for image classification in Crop/Weed Field Image Dataset (CWFID) of top-down looking images of row cultures (organic carrots). A  mean accuracy on the given test data and labels is used as an evaluation metric to allow comparison of different algorithms used for crop /weed classification.
+This report presents a simple academic exercise were a set of SIFT descriptors was extracted from a crop/weed group of images, then a Bag-of-visual-words model (BovW), Vector of Locally Aggregated Descriptors (VLAD) and a Fisher Vector encoding are used for image representation. For image classification purposes some machine learning classifiers such as (Gaussian Naive Bayes, Random Forest, Multi-layer Perceptron among others ) were used for crop/weed classification in CWFID image dataset of top-down looking images of row cultures (organic carrots). A  mean accuracy and a confusion matrix on the given test data and labels are used as an evaluation metric to allow comparison of different algorithms used for crop /weed classification.
 
 %. The Crop /Weed Field Image Dataset (CWFID) comprises 60 images with annotations with a ground truth vegetation segmentation mask and manual annotation of the plant type (crop vs. weed)
 
@@ -210,13 +210,13 @@ The scale-invariant feature transform (SIFT) is an algorithm in computer vision 
 
 \section{Bag of Visual Words (BovW)} \label{bow}
 
-To represent an image using the BoW model, an image can be treated as a document. Similarly, "words" in images need to be defined too. To achieve this, it usually includes following three steps: \textbf{feature detection}, \textbf{feature description}, and \textbf{codebook generation}. A definition of the BoW model can be the "histogram representation based on independent features".
+To represent an image using the BovW model, an image can be treated as a document. Similarly, "words" in images need to be defined too. To achieve this, it usually includes following three steps: \textbf{feature detection}, \textbf{feature description}, and \textbf{codebook generation}. A definition of the BoW model can be the "histogram representation based on independent features".
 
 \begin{itemize}
 
 \item \textbf{Feature representation} After feature detection, each image is abstracted by several local patches. Feature representation methods deal with how to represent the patches as numerical vectors. These vectors are called feature descriptors. A good descriptor should have the ability to handle intensity, rotation, scale and affine variations to some extent. One of the most famous descriptors is Scale-invariant feature transform (SIFT). SIFT converts each patch to 128-dimensional vector. After this step, each image is a collection of vectors of the same dimension (128 for SIFT), where the order of different vectors is of no importance.
 
-\item \textbf{Codebook generation} The final step for the BoW model is to convert vector-represented patches to "codewords" (analogous to words in text documents), which also produces a "codebook" (analogy to a word dictionary). A codeword can be considered as a representative of several similar patches. One simple method is performing k-means clustering over all the vectors.Codewords are then defined as the centers of the learned clusters. The number of the clusters is the codebook size (analogous to the size of the word dictionary).
+\item \textbf{Codebook generation} The final step for the BovW model is to convert vector-represented patches to "codewords" (analogous to words in text documents), which also produces a "codebook" (analogy to a word dictionary). A codeword can be considered as a representative of several similar patches. One simple method is performing k-means clustering over all the vectors.Codewords are then defined as the centers of the learned clusters. The number of the clusters is the codebook size (analogous to the size of the word dictionary).
 
 \end{itemize}
 
@@ -236,12 +236,31 @@ VLAD is constructed as follows: regions are extracted from an image using an aff
 
 \section{Fisher Vector} \label{fv}
 
-\cite{Sanchez2013}
+%http://what-when-how.com/computer-visionimaging-and-computer-graphics/fisher-vectors-beyond-bag-of-visual-words-image-representations-computer-visionimaging-and-computer-graphics-part-1/
+
+%https://www.quora.com/What-is-a-Fisher-vector
+
+The Fisher Vector (FV) can be used to describe an entire image for image classification \cite{Sanchez2013}. \\\\High level picture:
+
+\begin{itemize}
+	\item A Gaussian Mixture Model (GMM) is used to model the distribution of features (e.g. SIFT) extracted all over the image.
+	\item The Fisher Vector (FV) encodes the gradients of the log-likelihood of the features under the GMM, with respect to the GMM parameters.
+\end{itemize}
+
+\noindent
+Since the GMM parameters represent the first-order moments of the features, the FV encodes second-order moments of the features, roughly.
+
+
+
+%representation of images based on an intermediate representation, the visual vocabulary built in the low level feature space.
+
+
+
 
 
 \section{Classification Algorithms} \label{classalgs}
 
-\subsection{k-Nearest Neighbor Classification} \label{knn}
+\subsection{k-Nearest Neighbor } \label{knn}
 The simplest method is the k-Nearest Neighbor classifier. Here the k points of the training data closest to the test point are found, and a label is given to the test point by a majority vote between the k points. This method is highly intuitive and attains – given its simplicity – remarkably low classification errors, but it is computationally expensive and requires a large memory to store the training data.
 
 %\subsection{Linear Discriminant Analysis} \label{lda}
@@ -254,6 +273,39 @@ The simplest method is the k-Nearest Neighbor classifier. Here the k points of t
 \subsection{Random Forest} \label{randomf}
 
 Random forests is an ensemble model which means that it uses the results from many different models to calculate a response. In most cases the result from an ensemble model will be better than the result from any one of the individual models. In the case of random forests, several decision trees are created (grown) and the response is calculated based on the outcome of all of the decision trees \cite{Horning2010}.   A random forest multi-way classifier consists of a number of trees, with each tree grown using some form of randomization. The leaf nodes of each tree are labeled by estimates of the posterior distribution over the image classes. Each internal node contains a test that best splits the space of data to be classified. An image is classified by sending it down every tree and aggregating the reached leaf distributions. Randomness can be injected at two points during training: in subsampling the training data so that each tree is grown using a different subset; and in selecting the node tests \cite{Bosch2007}.
+
+
+
+\subsection{Naive Bayes} \label{naive}
+%https://www.analyticsvidhya.com/blog/2017/09/naive-bayes-explained/
+%http://dataaspirant.com/2017/02/06/naive-bayes-classifier-machine-learning/
+
+It is a classification technique based on Bayes’ Theorem with an assumption of independence among predictors. In simple terms, a Naive Bayes classifier assumes that the presence of a particular feature in a class is unrelated to the presence of any other feature. For example, a fruit may be considered to be an apple if it is red, round, and about 3 inches in diameter. Even if these features depend on each other or upon the existence of the other features, all of these properties independently contribute to the probability that this fruit is an apple and that is why it is known as ‘Naive’.
+
+Naive Bayes model is easy to build and particularly useful for very large data sets. Along with simplicity, Naive Bayes is known to outperform even highly sophisticated classification methods.
+
+Bayes theorem provides a way of calculating posterior probability P(c|x) from P(c), P(x) and P(x|c). Look at the equation below:
+
+
+
+Naive Bayes is a kind of classifier which uses the Bayes Theorem. It predicts membership probabilities for each class such as the probability that given record or data point belongs to a particular class.  The class with the highest probability is considered as the most likely class. This is also known as Maximum A Posteriori (MAP).
+
+The MAP for a hypothesis is:
+MAP(H)
+$= max( P(H|E) )
+=  max( (P(E|H)*P(H))/P(E))
+= max(P(E|H)*P(H))
+$
+
+P(E) is evidence probability, and it is used to normalize the result. It remains same so, removing it won’t affect.
+
+Naive Bayes classifier assumes that all the features are unrelated to each other. Presence or absence of a feature does not influence the presence or absence of any other feature. We can use Wikipedia example for explaining the logic i.e.,
+
+A fruit may be considered to be an apple if it is red, round, and about 4″ in diameter.  Even if these features depend on each other or upon the existence of the other features, a naive Bayes classifier considers all of these properties to independently contribute to the probability that this fruit is an apple.
+
+In real datasets, we test a hypothesis given multiple evidence(feature). So, calculations become complicated. To simplify the work, the feature independence approach is used to ‘uncouple’ multiple evidence and treat each as an independent one.
+
+P(H|Multiple Evidences) =  P(E1| H)* P(E2|H) ……*P(En|H) * P(H) / P(Multiple Evidences)
 
 
 
@@ -272,80 +324,140 @@ A further boost to their popularity came with the proof that they can approximat
 A simple scheme for a neural network is shown in Figure \ref{figure5}. Each circle denotes a computational element referred to as a neuron, which computes a weighted sum of its inputs, and possibly performs a nonlinear function on this sum. If certain classes of nonlinear functions are used, the function computed by the network can approximate any function (specifically a mapping from the training patterns to the training targets), provided enough neurons exist in the network and enough training examples are provided.
 
 
+\subsubsection{The Perceptron} \label{perc}
+
+A perceptron has one or more inputs, a bias, an activation function, and a single output. The perceptron receives inputs, multiplies them by some weight, and then passes them into an activation function to produce an output. There are many possible activation functions to choose from, such as the logistic function, a trigonometric function, a step function etc. We must also make sure to add a bias to the perceptron, a constant weight outside of the inputs that allows us to achieve better fit for our predictive models. Check out the diagram below for a visualization of a perceptron:
+
+\begin{figure}[H] \centering
+	\includegraphics[width=0.4\textwidth]{perceptron.png}
+	\caption{A schematic diagram of a neural network. Each circle in the hidden and output layer is a computational element known as a neuron. }
+	\label{perceptron}
+\end{figure}
+
+Once we have the output we can compare it to a known label and adjust the weights accordingly (the weights usually start off with random initialization values). We keep repeating this process until we have reached a maximum number of allowed iterations, or an acceptable error rate.
+
+To create a neural network, we simply begin to add layers of perceptrons together, creating a multi-layer perceptron model of a neural network. You’ll have an input layer which directly takes in your data and an output layer which will create the resulting outputs. Any layers in between are known as hidden layers because they don’t directly “see” the feature inputs within the data you feed in or the outputs. For a visualization of this check out the diagram below (source: Wikipedia).
+
+
+\subsection{Multi-layer Perceptron (MLP)} \label{mlp}
+%https://www.hiit.fi/u/ahonkela/dippa/node41.html
+%http://scikit-learn.org/stable/modules/neural_networks_supervised.html
+
+\begin{figure}[H] \centering
+	\includegraphics[width=0.4\textwidth]{mlp.png}
+	\caption{Graph of an MLP }
+	\label{mlpg}
+\end{figure}
+
+
+
+
+\subsection{One-vs-the-rest (OvR) } \label{ovr}
+
+Also known as one-vs-all, this strategy consists in fitting one classifier per class. For each classifier, the class is fitted against all the other classes. In addition to its computational efficiency (only nclasses classifiers are needed), one advantage of this approach is its interpretability. Since each class is represented by one and one classifier only, it is possible to gain knowledge about the class by inspecting its corresponding classifier. This is the most commonly used strategy for multiclass classification and is a fair default choice.
+
+This strategy can also be used for multilabel learning, where a classifier is used to predict multiple labels for instance, by fitting on a 2-d matrix in which cell [i, j] is 1 if sample i has label j and 0 otherwise.
+
+In the multilabel learning literature, OvR is also known as the binary relevance method.
+
+%http://scikit-learn.org/stable/modules/generated/sklearn.multiclass.OneVsRestClassifier.html
+
+
 
 \section{Comparison} \label{Comparison}
 
 
 \begin{figure}[H] \centering
-	\caption{comparison of machine learning classifiers over different image descriptors. }
-	\includegraphics[width=1\textwidth]{class.png}
+	\caption*{Table 7.1:  Comparison of machine learning classifiers over different image descriptors. }
+	\includegraphics[width=0.8\textwidth]{class.png}
 	\label{class}
 \end{figure}
 
 
 \section{Confusion Matrix} \label{cmatrix}
 
+A confusion matrix is a table that is often used to describe the performance of a classification model (or "classifier") on a set of test data for which the true values are known.  A classification system has been trained to distinguish between crop and weed(no-crop), a confusion matrix will summarize the results of testing the algorithm for further inspection the resulting confusion matrix could look like the Figure \ref{mtx} below :
+
+\begin{figure}[H] \centering
+	\caption{Confusion matrix }
+	\includegraphics[width=0.33\textwidth]{mtx.png}
+	\label{mtx}
+\end{figure}
+
+The entries in the confusion matrix have the following meaning in the context of our study:
+
+\begin{itemize}
+	\item \textbf{a} is the number of correct predictions that an instance is negative.
+	\item \textbf{b} is the number of incorrect predictions that an instance is positive.
+	\item \textbf{c} is the number of incorrect of predictions that an instance negative.
+	\item \textbf{d} is the number of correct predictions that an instance is positive.
+\end{itemize}
+
+\noindent
+\textbf{Accuracy : }it is the fraction of correctly classified pixels with regard to all pixels of that ground truth class. For each class of ground truth pixels (row), the number of correctly classified pixels is divided by the total number of ground truth or test pixels of that class. 
+
+
 \subsection{BagOfVisualWords}
 
 \begin{figure}[H] \centering
-	\caption{Confusion matrix for K-nearest neighbors classifier. }
-	\includegraphics[width=1\textwidth]{m1.png}
+	\caption*{Table 8.1: Confusion matrix for K-nearest neighbors classifier. }
+	\includegraphics[width=0.8\textwidth]{m1.png}
 	\label{m1}
 \end{figure}
 
 \begin{figure}[H] \centering
-	\caption{Confusion matrix for Multi-layer Perceptron classifier. }
-	\includegraphics[width=1\textwidth]{m2.png}
+	\caption*{Table 8.2: Confusion matrix for Multi-layer Perceptron classifier. }
+	\includegraphics[width=0.8\textwidth]{m2.png}
 	\label{m2}
 \end{figure}
 
 \begin{figure}[H] \centering
-	\caption{Confusion matrix for Gaussian Naive Bayes classifier. }
-	\includegraphics[width=1\textwidth]{m3.png}
+	\caption*{Table 8.3: Confusion matrix for Gaussian Naive Bayes classifier. }
+	\includegraphics[width=0.8\textwidth]{m3.png}
 	\label{m3}
 \end{figure}
 
 \begin{figure}[H] \centering
-	\caption{Confusion matrix for One-vs-the-rest classifier. }
-	\includegraphics[width=1\textwidth]{m4.png}
+	\caption*{Table 8.4: Confusion matrix for One-vs-the-rest classifier. }
+	\includegraphics[width=0.8\textwidth]{m4.png}
 	\label{m4}
 \end{figure}
 
 \begin{figure}[H] \centering
-	\caption{Confusion matrix for Random Forest classifier. }
-	\includegraphics[width=1\textwidth]{m5.png}
+	\caption*{Table 8.5: Confusion matrix for Random Forest classifier. }
+	\includegraphics[width=0.8\textwidth]{m5.png}
 	\label{m5}
 \end{figure}
 
 \subsection{Fisher Vector}
 
 \begin{figure}[H] \centering
-	\caption{Confusion matrix for K-nearest neighbors classifier. }
-	\includegraphics[width=1\textwidth]{m6.png}
+	\caption*{Table 8.6: Confusion matrix for K-nearest neighbors classifier. }
+	\includegraphics[width=0.8\textwidth]{m6.png}
 	\label{m6}
 \end{figure}
 
 \begin{figure}[H] \centering
-	\caption{Confusion matrix for Multi-layer Perceptron classifier. }
-	\includegraphics[width=1\textwidth]{m7.png}
+	\caption*{Table 8.7: Confusion matrix for Multi-layer Perceptron classifier. }
+	\includegraphics[width=0.8\textwidth]{m7.png}
 	\label{m7}
 \end{figure}
 
 \begin{figure}[H] \centering
-	\caption{Confusion matrix for Gaussian Naive Bayes classifier. }
-	\includegraphics[width=1\textwidth]{m8.png}
+	\caption*{Table 8.8: Confusion matrix for Gaussian Naive Bayes classifier. }
+	\includegraphics[width=0.8\textwidth]{m8.png}
 	\label{m8}
 \end{figure}
 
 \begin{figure}[H] \centering
-	\caption{Confusion matrix for One-vs-the-rest classifier. }
-	\includegraphics[width=1\textwidth]{m9.png}
+	\caption*{Table 8.9: Confusion matrix for One-vs-the-rest classifier. }
+	\includegraphics[width=0.8\textwidth]{m9.png}
 	\label{m9}
 \end{figure}
 
 \begin{figure}[H] \centering
-	\caption{Confusion matrix for Random Forest classifier. }
-	\includegraphics[width=1\textwidth]{m10.png}
+	\caption*{Table 8.10: Confusion matrix for Random Forest classifier. }
+	\includegraphics[width=0.8\textwidth]{m10.png}
 	\label{m10}
 \end{figure}
 
@@ -353,32 +465,32 @@ A simple scheme for a neural network is shown in Figure \ref{figure5}. Each circ
 \subsection{VLAD}
 
 \begin{figure}[H] \centering
-	\caption{Confusion matrix for K-nearest neighbors classifier. }
-	\includegraphics[width=1\textwidth]{m11.png}
+	\caption*{Table 8.11: Confusion matrix for K-nearest neighbors classifier. }
+	\includegraphics[width=0.8\textwidth]{m11.png}
 	\label{m11}
 \end{figure}
 
 \begin{figure}[H] \centering
-	\caption{Confusion matrix for Multi-layer Perceptron classifier. }
-	\includegraphics[width=1\textwidth]{m12.png}
+	\caption*{Table 8.12: Confusion matrix for Multi-layer Perceptron classifier. }
+	\includegraphics[width=0.8\textwidth]{m12.png}
 	\label{m12}
 \end{figure}
 
 \begin{figure}[H] \centering
-	\caption{Confusion matrix for Gaussian Naive Bayes classifier. }
-	\includegraphics[width=1\textwidth]{m13.png}
+	\caption*{Table 8.13: Confusion matrix for Gaussian Naive Bayes classifier. }
+	\includegraphics[width=0.8\textwidth]{m13.png}
 	\label{m13}
 \end{figure}
 
 \begin{figure}[H] \centering
-	\caption{Confusion matrix for One-vs-the-rest classifier. }
-	\includegraphics[width=1\textwidth]{m14.png}
+	\caption*{Table 8.14: Confusion matrix for One-vs-the-rest classifier. }
+	\includegraphics[width=0.8\textwidth]{m14.png}
 	\label{m14}
 \end{figure}
 
 \begin{figure}[H] \centering
-	\caption{Confusion matrix for Random Forest classifier. }
-	\includegraphics[width=1\textwidth]{m15.png}
+	\caption*{Table 8.15: Confusion matrix for Random Forest classifier. }
+	\includegraphics[width=0.8\textwidth]{m15.png}
 	\label{m15}
 \end{figure}
 
@@ -458,18 +570,13 @@ Python code blocks and running results are available on GitHub over Jupyter Note
 
 	
 	
-	
-
-
-
-
-
 \section{Conclusions}
 
-
-
-
-
+The ANN Multi-layer perceptron performed best with an accuracy score upper 91\% on the test set in SIFT + BagOfVisualWords and SIFT + Fisher Vector, likewise, in SIFT + VLAD  was the best one with accuracy score upper 86\%. Gaussian Naive Bayes classifier was the worst performer in SIFT+BagOfVisualWords  and SIFT+VLAD, however in SIFT+Fisher Vector score accuracy was 91\%.\\\\
+\noindent
+The confusion matrix used gave a better idea of what classification model is getting right and was used for summarizing the performance of classification algorithms evaluated. \\\\
+\noindent
+Combination of Multi-layer Perceptron with SIFT + Fisher Vector gets a richer feature vector from images compared to SIFT + BagOfVisualWords  or  SIFT + VLAD achieving thus an accuracy score upper 97\% on the test set.
 
 
 
