@@ -91,7 +91,7 @@
 
 \begin{abstract}
 \noindent	
-This report presents a simple academic exercise were a set of SIFT descriptors was extracted from a crop/weed group of images, then a Bag-of-visual-words model (BovW), Vector of Locally Aggregated Descriptors (VLAD) and a Fisher Vector encoding are used for image representation. For image classification purposes some machine learning classifiers such as (Gaussian Naive Bayes, Random Forest, Multi-layer Perceptron among others ) were used for crop/weed classification in CWFID image dataset of top-down looking images of row cultures (organic carrots). A  mean accuracy and a confusion matrix on the given test data and labels are used as an evaluation metric to allow comparison of different algorithms used for crop /weed classification.
+This report presents a simple academic exercise were a set of SIFT descriptors was extracted from a crop/weed group of pre-processed images with computer vision techniques. A Bag-of-visual-words model (BovW), Vector of Locally Aggregated Descriptors (VLAD) and a Fisher Vector encoding are used for image representation. For image classification purposes some machine learning classifiers such as (Gaussian Naive Bayes, Random Forest, Multi-layer Perceptron among others ) were used for crop/weed classification in the CWFID image dataset of top-down looking images of row cultures (organic carrots). A  mean accuracy and a confusion matrix on the given test data and labels are used as an evaluation metric to allow comparison of different algorithms used for crop /weed classification.
 
 %. The Crop /Weed Field Image Dataset (CWFID) comprises 60 images with annotations with a ground truth vegetation segmentation mask and manual annotation of the plant type (crop vs. weed)
 
@@ -144,17 +144,14 @@ The entire process of a typical learning problem is depicted in Figure \ref{figu
 	\label{figure4}
 \end{figure}
 
-
-
-
-
+\noindent
 There are literally thousands of learning algorithms available. The key to not getting lost in this huge space is to realize that it consists of combinations of just three components \cite{Domingos2012}. The components are:
 
 \begin{itemize}
 
 \item \textbf{Representation:} A classifier must be represented in some formal language that the computer can handle. This set is called the hypothesis space of the learner. If a classifier is not in the hypothesis space, it cannot be learned. 
 
-\item \textbf{Evaluation:} An evaluation function (also called objective function or scoring function) is needed to distinguish good classifiers from bad ones.The evaluation function used internally by the algorithm may differ from the external one that the classifier want to optimize.
+\item \textbf{Evaluation:} An evaluation function (also called scoring function) is needed to distinguish good classifiers from bad ones.The evaluation function used internally by the algorithm may differ from the external one that the classifier want to optimize.
 
 \item \textbf{Optimization:} A method to search among the classifiers in the language for the highest-scoring one. The choice of optimization technique is key to the efficiency of the learner, and also helps determine the classifier produced if the evaluation function has more than one optimum.
 \end{itemize}
@@ -194,10 +191,9 @@ The following Jupyter Notebook file shows how the files were read
 
 \begin{itemize}
 	\item {\textbf{Reading Crop and Weed Dataset:} } \url{https://github.com/AndresHerrera/Proyecto_MachineLearning/blob/master/JupyterNotebook/ReadCropWeedDataset.ipynb}
-	
 \end{itemize}
 
-\section{SIFT Descriptors} \label{sift}
+\section{Scale-invariant feature transform (SIFT) descriptor} \label{sift}
 The scale-invariant feature transform (SIFT) is an algorithm in computer vision to detect and describe local features in images. A SIFT descriptor is a 3-D spatial histogram of the image gradients in characterizing the appearance of a keypoint. The gradient at each pixel is regarded as a sample of a three-dimensional elementary feature vector, formed by the pixel location and the gradient orientation. Samples are weighed by the gradient norm and accumulated in a 3-D histogram h, which (up to normalization and clamping) forms the SIFT descriptor of the region. An additional Gaussian weighting function is applied to give less importance to gradients farther away from the keypoint center. Orientations are quantized into eight bins and the spatial coordinates into four each, as seen in Figure \ref{figure6}:
 
 \begin{figure}[H] \centering
@@ -206,9 +202,58 @@ The scale-invariant feature transform (SIFT) is an algorithm in computer vision 
 	\label{figure6}
 \end{figure}
 
+\noindent
+The SIFT descriptor is invariant to translations, rotations and scaling transformations in the image domain and robust to moderate perspective transformations and illumination variations.
+\noindent
+SIFT, as described in \cite{Ke2003}, consists of four major stages:
+
+\begin{itemize}
+	\item Scale-space peak selection.
+	\item Keypoint localization.
+	\item Orientation assignment.
+	\item Keypoint descriptor.
+\end{itemize}
+
+\noindent
+In the first stage, potential interest points are identified by scanning the image over location and scale. This is implemented efficiently by constructing a Gaussian pyramid and searching for local peaks in a series of difference-of-Gaussian (DoG) images. In the second stage, candidate keypoints are localized to sub-pixel accuracy and eliminated if found to be unstable. The third identifies the dominant orientations for each keypoint based on its local image patch. The assigned orientation(s), scale and location for each keypoint enables SIFT to construct a canonical view for the keypoint that is invariant to similarity transforms. The final stage builds a local image descriptor for each keypoint, based upon the image gradients in its local neighborhood. The final (keypoint descriptor) stage of the SIFT algorithm builds a representation for each keypoint based on a patch of pixels in its local neighborhood. Keypoint descriptors typically uses a set of 16 histograms, aligned in a 4x4 grid, each with 8 orientation bins, one for each of the main compass directions and one for each of the mid-points of these directions. This results in a feature vector containing 128 elements. This 128-element vector is then normalized to unit length and thresholded to remove elements with small values.  it is fairly compact, expressing the patch of pixels using a 128 element vector.
+
+\begin{itemize}
+	\item {{There is an example of extraction of SIFT descriptors for a single image of the crop/weed dataset:} } \url{https://github.com/AndresHerrera/Proyecto_MachineLearning/blob/master/JupyterNotebook/SIFT_Descriptors.ipynbb}
+\end{itemize}
+
+\begin{figure}[H] \centering
+	\caption{A single image of the dataset includes crop, weed, and background (soil). }
+	\includegraphics[width=0.5\textwidth]{plant.png}
+	\label{plant}
+\end{figure}
+
+\noindent
+For extraction descriptors, an image annotation mask was used.  Soil background was removed using image preprocessing.
+
+\begin{figure}[H] \centering
+	\caption{Crop/weed mask image annotation - (blue) corresponds to crop and (green) to weed. }
+	\includegraphics[width=0.5\textwidth]{mask.png}
+	\label{mask}
+\end{figure}
 
 
-\section{Bag of Visual Words (BovW)} \label{bow}
+\begin{figure}[H] \centering
+	\caption{A total of 128 bin values represented as a vector to form keypoint descriptor. }
+	\includegraphics[width=0.5\textwidth]{sift1.png}
+	\label{sit1}
+\end{figure}
+
+
+
+
+
+
+
+\section{Image representation}
+
+Recent works on image retrieval and classification have proposed to index images by compact representations encoding powerful local descriptors, such as the closely related VLAD,  Fisher vector, and Bag of visual words. By combining such a representation with a suitable coding technique, it is possible to encode an image in a few dozen bytes while achieving excellent retrieval or classification results. 
+
+\subsection{Bag of Visual Words (BovW)} \label{bow}
 
 To represent an image using the BovW model, an image can be treated as a document. Similarly, "words" in images need to be defined too. To achieve this, it usually includes following three steps: \textbf{feature detection}, \textbf{feature description}, and \textbf{codebook generation}. A definition of the BoW model can be the "histogram representation based on independent features".
 
@@ -224,17 +269,28 @@ Thus, each patch in an image is mapped to a certain codeword through the cluster
 
 
 
-
-
-
-
-
-
-\section{VLAD} \label{vlad}
+\subsection{VLAD} \label{vlad}
 
 VLAD is constructed as follows: regions are extracted from an image using an affine invariant detector, and described using the 128-D SIFT descriptor. Each descriptor is then assigned to the closest cluster of a vocabulary of size $k$ (where $k$ is typically 64 or 256, so that clusters are quite coarse). For each of the k clusters, the residuals (vector differences between descriptors and cluster centers) are accumulated, and the $k$ 128-D sums of residuals are concatenated into a single $k$ × 128 dimensional descriptor \cite{Arandjelovic2013}.The vector of locally aggregated descriptors (VLAD) is an encoding technique that produces a fixed-length vector representation $v$ from a set $X = {x1, . . . , xn}$ of n local d-dimensional descriptors, e.g., SIFTs, extracted from a given image \cite{Delhumeau2013}.
 
-\section{Fisher Vector} \label{fv}
+Vector of locally aggregated descriptors(VLAD), which indexes images to compact representations by aggregating the residuals of descriptors.
+
+
+
+VLAD(vector of locally aggregated descriptors) is proposed by Jegou[6] in 2010. Similar as
+BOF(bag-of-features)[10], VLAD aims at representing one single image by a fixed number of
+feature vectors aggregated by all feature descriptors extracted from this image. Such a representation is called a VLAD encoding for an image. Initially, VLAD takes all feature
+descriptors from all training images as inputs to cluster them and find a fixed number of centroids
+by K-means[7] as shown in Figure 1 and Figure 2. The collection of these centroids is referred to
+as the codebook. To encode an image using the codebook, the details of processing are elaborated
+as follows. Let N denote the total number of centroids, and $ci(i=1…N)$ denote the centroids.
+
+
+
+
+\cite{Singh2012}
+
+\subsection{Fisher Vector} \label{fv}
 
 %http://what-when-how.com/computer-visionimaging-and-computer-graphics/fisher-vectors-beyond-bag-of-visual-words-image-representations-computer-visionimaging-and-computer-graphics-part-1/
 
@@ -572,7 +628,7 @@ Python code blocks and running results are available on GitHub over Jupyter Note
 	
 \section{Conclusions}
 
-The ANN Multi-layer perceptron performed best with an accuracy score upper 91\% on the test set in SIFT + BagOfVisualWords and SIFT + Fisher Vector, likewise, in SIFT + VLAD  was the best one with accuracy score upper 86\%. Gaussian Naive Bayes classifier was the worst performer in SIFT+BagOfVisualWords  and SIFT+VLAD, however in SIFT+Fisher Vector score accuracy was 91\%.\\\\
+The artificial neural network Multi-layer perceptron performed best results in the crop/weed classification with an accuracy score upper 91\% on the test set in image representation with SIFT + BagOfVisualWords and SIFT + Fisher Vector, likewise, in SIFT + VLAD  was the best one with accuracy score upper 86\%. Gaussian Naive Bayes classifier was the worst performer in SIFT+BagOfVisualWords and SIFT+VLAD image representation, however, in SIFT+Fisher Vector the scoring accuracy was upper 91\%.\\\\
 \noindent
 The confusion matrix used gave a better idea of what classification model is getting right and was used for summarizing the performance of classification algorithms evaluated. \\\\
 \noindent
