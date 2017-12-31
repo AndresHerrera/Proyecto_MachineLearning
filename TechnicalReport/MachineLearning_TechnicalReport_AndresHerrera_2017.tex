@@ -91,7 +91,7 @@
 
 \begin{abstract}
 \noindent	
-This report presents a simple academic exercise were a set of SIFT descriptors was extracted from a crop/weed group of pre-processed images with computer vision techniques. A Bag-of-visual-words model (BovW), Vector of Locally Aggregated Descriptors (VLAD) and a Fisher Vector encoding are used for image representation. For image classification purposes some machine learning classifiers such as (Gaussian Naive Bayes, Random Forest, Multi-layer Perceptron among others ) were used for crop/weed classification in the CWFID image dataset of top-down looking images of row cultures (organic carrots). A  mean accuracy and a confusion matrix on the given test data and labels are used as an evaluation metric to allow comparison of different algorithms used for crop /weed classification.
+This report presents a simple academic exercise were a set of SIFT descriptors was extracted from a group of phenotyping crop/weed image dataset using computer vision techniques. A Bag-of-visual-words model (BovW), Vector of Locally Aggregated Descriptors (VLAD) and a Fisher Vector (FV) encoding are used for image representation. For image classification purposes some machine learning classifiers such as (Gaussian Naive Bayes, Random Forest, Multi-layer Perceptron among others ) were used for crop/weed classification in the CWFID\footnote{Crop/Weed Field Image Dataset for the Evaluation of Computer Vision Based Precision Agriculture Tasks.} image dataset of top-down looking images of organic carrots. A  mean accuracy and a confusion matrix on the given test data and labels are used as an evaluation metric to allow comparison of different algorithms used for classification.
 
 %. The Crop /Weed Field Image Dataset (CWFID) comprises 60 images with annotations with a ground truth vegetation segmentation mask and manual annotation of the plant type (crop vs. weed)
 
@@ -244,7 +244,7 @@ Thus, each patch in an image is mapped to a certain codeword through the cluster
 
 
 
-\subsection{VLAD} \label{vlad}
+\subsection{Vector of Locally Aggregated Descriptors (VLAD) } \label{vlad}
 
 VLAD is constructed as follows: regions are extracted from an image using an affine invariant detector, and described using the 128-D SIFT descriptor. Each descriptor is then assigned to the closest cluster of a vocabulary of size $k$ (where $k$ is typically 64 or 256, so that clusters are quite coarse). For each of the k clusters, the residuals (vector differences between descriptors and cluster centers) are accumulated, and the $k$ 128-D sums of residuals are concatenated into a single $k$ × 128 dimensional descriptor \cite{Arandjelovic2013}.The vector of locally aggregated descriptors (VLAD) is an encoding technique that produces a fixed-length vector representation $v$ from a set $X = {x1, . . . , xn}$ of n local d-dimensional descriptors, e.g., SIFTs, extracted from a given image \cite{Delhumeau2013}.Vector of locally aggregated descriptors(VLAD), which indexes images to compact representations by aggregating the residuals of descriptors. In the construction of VLAD, each descriptor is first assigned to the closest visual word in a visual codebook in the same way as in the construction of the BovW vector\cite{Uchida2013}.
 Initially, VLAD takes all feature descriptors from all training images as inputs to cluster them and find a fixed number of centroids by K-means. The collection of these centroids is referred to as the codebook. To encode an image using the codebook, the details of processing are elaborated as follows. Let $N$ denote the total number of centroids, and $ci(i=1…N)$ denote the centroids. For further information about VLAD \cite{Arandjelovic2013}, \cite{Jegou2010} and \cite{Singh2012} are useful. VLAD adopts SIFT as the feature descriptors for encoding. SIFT is a well-known feature descriptor which is widely applied in computer vision, object recognition and machine intelligence due to its feature distinctness, robustness, and scale and rotation invariant\cite{Singh2012}.
@@ -252,7 +252,7 @@ Initially, VLAD takes all feature descriptors from all training images as inputs
 % Similar as BovW model, VLAD aims at representing one single image by a fixed number of feature vectors aggregated by all feature descriptors extracted from this image. Such a representation is called a VLAD encoding for an image. 
 
 
-\subsection{Fisher Vector} \label{fv}
+\subsection{Fisher Vector (FV)} \label{fv}
 
 Fisher vector encoding is based on a visual dictionary learning method using Gaussian Mixture Models (GMM) \cite{Diba}.
 The basic idea of Fisher vector codding (FVC) is to first construct a generative model of local features and use the gradient of the log-likelihood of a particular feature with respect to the model parameters as the feature’s coding vector. When applied as an image representation the FVC vectors of local features are calculated by a pooling operation and normalization to generate the final image representation. FVC has been established as one of the most powerful local feature encoding and image representation generation methods. Gaussian mixture model (GMM) is adopted as the generative model for modeling the local features. The GMM essentially assumes that each local feature is generated from one of the Gaussian distributions in the GMM, and intuitively the mean of each Gaussian distribution serves as a prototype for the local features. Since the dimensionality of the image representation resulting from GMM based FVC is the product of the local feature dimensionality and the number of Gaussians, to make the image representation dimensionality tractable, the number of Gaussians is usually chosen to be few hundred \cite{Liu2016}.\\\\
@@ -394,9 +394,9 @@ To create a neural network, layers of perceptrons must be added together, creati
 %http://scikit-learn.org/stable/modules/generated/sklearn.multiclass.OneVsRestClassifier.html
 
 
-\section{Image Dataset}
+\section{Crop and Weed Image Dataset}
 
-The dataset comprises field images in top-down view that were acquired with the autonomous field robot Bonirob\cite{BOSH} in an organic carrot farm in 2013. The images were captured while the crop was in growth stages where one or more true leaves were present. All images are annotated and a ground truth vegetation segmentation mask is available together with crop/weed annotations. Figure \ref{figure1} shows a field image (a), a segmentation mask (b) and Crop/weed annotation image (c) even a file in YAML format with a list of polygon vertices and labels.
+The dataset \cite{haug15} comprises field images in top-down view that were acquired with the autonomous field robot Bonirob\cite{BOSH} in an organic carrot farm in 2013. The images were captured while the crop was in growth stages where one or more true leaves were present. All images are annotated and a ground truth vegetation segmentation mask is available together with crop/weed annotations. Figure \ref{figure1} shows a field image (a), a segmentation mask (b) and Crop/weed annotation image (c) even a file in YAML format with a list of polygon vertices and labels.
 
 \begin{figure}[H] \centering
 	\includegraphics[width=1\textwidth]{image1.png}
