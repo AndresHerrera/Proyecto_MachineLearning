@@ -198,4 +198,109 @@ year = {2015}
 
 
 
+@article{Jegou2010,
+	abstract = {We address the problem of image search on a very large scale, where three constraints have to be considered jointly: the accuracy of the search, its efficiency, and the memory usage of the representation. We first propose a simple yet efficient way of aggregating local image descriptors into a vector of limited dimension, which can be viewed as a simplification of the Fisher kernel representation. We then show how to jointly optimize the dimension reduction and the indexing algorithm, so that it best preserves the quality of vector comparison. The evaluation shows that our approach significantly outperforms the state of the art: the search accuracy is comparable to the bag-of-features approach for an image representation that fits in 20 bytes. Searching a 10 million image dataset takes about 50ms.},
+	author = {J{\'{e}}gou, Herv{\'{e}} and Douze, Matthijs and Schmid, Cordelia and P{\'{e}}rez, Patrick},
+	doi = {10.1109/CVPR.2010.5540039},
+	file = {:C$\backslash$:/Users/C40-05/Desktop/MAESTRIA/MATERIAS/2017/SEMESTRE2/ProyectosFinales/Proyecto{\_}MachineLearning/TechnicalReport/references/jegou{\_}compactimagerepresentation.pdf:pdf},
+	isbn = {9781424469840},
+	issn = {10636919},
+	journal = {Proceedings of the IEEE Computer Society Conference on Computer Vision and Pattern Recognition},
+	mendeley-groups = {ML},
+	pages = {3304--3311},
+	pmid = {22156101},
+	title = {{Aggregating local descriptors into a compact image representation}},
+	year = {2010}
+}
+
+@article{Diba,
+	author = {Diba, Ali},
+	file = {:C$\backslash$:/Users/C40-05/Desktop/MAESTRIA/MATERIAS/2017/SEMESTRE2/ProyectosFinales/Proyecto{\_}MachineLearning/TechnicalReport/references/MVA17{\_}0121{\_}FI.pdf:pdf},
+	mendeley-groups = {ML},
+	title = {{Deep Visual Words : Improved Fisher Vector for Image Classification}}
+}
+
+
+
+@article{Liu2016,
+	abstract = {Deriving from the gradient vector of a generative model of local features, Fisher vector coding (FVC) has been identified as an effective coding method for image classification. Most, if not all, FVC implementations employ the Gaussian mixture model (GMM) to depict the generation process of local features. However, the representative power of the GMM could be limited because it essentially assumes that local features can be characterized by a fixed number of feature prototypes and the number of prototypes is usually small in FVC. To handle this limitation, in this paper we break the convention which assumes that a local feature is drawn from one of few Gaussian distributions. Instead, we adopt a compositional mechanism which assumes that a local feature is drawn from a Gaussian distribution whose mean vector is composed as the linear combination of multiple key components and the combination weight is a latent random variable. In this way, we can greatly enhance the representative power of the generative model of FVC. To implement our idea, we designed two particular generative models with such a compositional mechanism.},
+	archivePrefix = {arXiv},
+	arxivId = {1601.04143},
+	author = {Liu, Lingqiao and Wang, Peng and Shen, Chunhua and Wang, Lei and van den Hengel, Anton and Wang, Chao and Shen, Heng Tao},
+	doi = {10.1109/TPAMI.2017.2651061},
+	eprint = {1601.04143},
+	file = {:C$\backslash$:/Users/C40-05/Desktop/MAESTRIA/MATERIAS/2017/SEMESTRE2/ProyectosFinales/Proyecto{\_}MachineLearning/TechnicalReport/references/1601.04143.pdf:pdf},
+	issn = {0162-8828},
+	mendeley-groups = {ML},
+	pages = {1--16},
+	title = {{Compositional Model based Fisher Vector Coding for Image Classification}},
+	url = {http://arxiv.org/abs/1601.04143},
+	year = {2016}
+}
+
+
+@article{Uchida2013,
+	abstract = {Recently, the Fisher vector representation of local features has attracted much attention because of its effectiveness in both image classification and image retrieval. Another trend in the area of image retrieval is the use of binary features such as ORB, FREAK, and BRISK. Considering the significant performance improvement for accuracy in both image classification and retrieval by the Fisher vector of continuous feature descriptors, if the Fisher vector were also to be applied to binary features, we would receive similar benefits in binary feature based image retrieval and classification. In this paper, we derive the closed-form approximation of the Fisher vector of binary features modeled by the Bernoulli mixture model. We also propose accelerating the Fisher vector by using the approximate value of posterior probability. Experiments show that the Fisher vector representation significantly improves the accuracy of image retrieval compared with a bag of binary words approach.},
+	archivePrefix = {arXiv},
+	arxivId = {1609.08291},
+	author = {Uchida, Yusuke and Sakazawa, Shigeyuki},
+	doi = {10.1109/ACPR.2013.6},
+	eprint = {1609.08291},
+	file = {:C$\backslash$:/Users/C40-05/Desktop/MAESTRIA/MATERIAS/2017/SEMESTRE2/ProyectosFinales/Proyecto{\_}MachineLearning/TechnicalReport/references/1609.08291.pdf:pdf},
+	isbn = {978-1-4799-2190-4},
+	issn = {21867364},
+	journal = {Proceedings - 2nd IAPR Asian Conference on Pattern Recognition, ACPR 2013},
+	keywords = {Bernoulli mixture model,Binary feature,Fisher vector,Image retrieval},
+	mendeley-groups = {ML},
+	pages = {23--28},
+	title = {{Image retrieval with fisher vectors of binary features}},
+	year = {2013}
+}
+
+@article{Sun2013,
+	abstract = {Event recognition has been an important topic in computer vision research due to its many applications. However, most of the work has focused on videos taken from a fixed camera, known environments and basic events. Here, we focus on classification of unconstrained, web videos into much higher level activities. We follow the approach of constructing fixed length feature vectors from local feature descriptors for classification using an SVM. Our key contribution is the study of the utility of Fisher Vector representation in improving results compared to the conventional Bag-of-Words (BoW) approach. Such coding has shown to be useful for static image classification in the past but not applied to video categorization. We perform tests on the challenging NIST TRECVID Multimedia Event Detection (MED) dataset, which has thousand hours of unconstrained user generated videos; our approach achieves as much as 35{\%} improvement over the BoW baseline. We also offer an analysis of possible causes of such improvements.},
+	author = {Sun, Chen and Nevatia, Ram},
+	doi = {10.1109/WACV.2013.6474994},
+	file = {:C$\backslash$:/Users/C40-05/Desktop/MAESTRIA/MATERIAS/2017/SEMESTRE2/ProyectosFinales/Proyecto{\_}MachineLearning/TechnicalReport/references/9e7783a225db266475160dcbcf29ff5b47df.pdf:pdf},
+	isbn = {9781467350532},
+	issn = {21583978},
+	journal = {Proceedings of IEEE Workshop on Applications of Computer Vision},
+	mendeley-groups = {ML},
+	pages = {15--22},
+	title = {{Large-scale web video event classification by use of Fisher Vectors}},
+	year = {2013}
+}
+
+@article{Triola,
+	author = {Triola, Mario F},
+	file = {:C$\backslash$:/Users/C40-05/Desktop/MAESTRIA/MATERIAS/2017/SEMESTRE2/ProyectosFinales/Proyecto{\_}MachineLearning/TechnicalReport/references/BayesTheorem.pdf:pdf},
+	mendeley-groups = {ML},
+	pages = {1--9},
+	title = {{Bayes ' Theorem}}
+}
+
+
+
+@Inbook{Jiang2007,
+	author="Jiang, Liangxiao
+	and Wang, Dianhong
+	and Cai, Zhihua
+	and Yan, Xuesong",
+	editor="Alhajj, Reda
+	and Gao, Hong
+	and Li, Jianzhong
+	and Li, Xue
+	and Za{\"i}ane, Osmar R.",
+	title="Survey of Improving Naive Bayes for Classification",
+	bookTitle="Advanced Data Mining and Applications: Third International Conference, ADMA 2007 Harbin, China, August 6-8, 2007. Proceedings",
+	year="2007",
+	publisher="Springer Berlin Heidelberg",
+	address="Berlin, Heidelberg",
+	pages="134--145",
+	abstract="The attribute conditional independence assumption of naive Bayes essentially ignores attribute dependencies and is often violated. On the other hand, although a Bayesian network can represent arbitrary attribute dependencies, learning an optimal Bayesian network classifier from data is intractable. Thus, learning improved naive Bayes has attracted much attention from researchers and presented many effective and efficient improved algorithms. In this paper, we review some of these improved algorithms and single out four main improved approaches: 1) Feature selection; 2) Structure extension; 3) Local learning; 4) Data expansion. We experimentally tested these approaches using the whole 36 UCI data sets selected by Weka, and compared them to naive Bayes. The experimental results show that all these approaches are effective. In the end, we discuss some main directions for future research on Bayesian network classifiers.",
+	isbn="978-3-540-73871-8",
+	doi="10.1007/978-3-540-73871-8_14",
+	url="https://doi.org/10.1007/978-3-540-73871-8_14"
+}
+
 

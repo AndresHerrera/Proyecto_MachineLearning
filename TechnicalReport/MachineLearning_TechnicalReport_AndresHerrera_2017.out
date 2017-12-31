@@ -1,28 +1,27 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
 \BOOKMARK [1][-]{section.2}{Scale-invariant feature transform \(SIFT\) descriptor}{}% 2
-\BOOKMARK [1][-]{section.3}{Image representation}{}% 3
+\BOOKMARK [1][-]{section.3}{Image vector representation}{}% 3
 \BOOKMARK [2][-]{subsection.3.1}{Bag of Visual Words \(BovW\)}{section.3}% 4
 \BOOKMARK [2][-]{subsection.3.2}{VLAD}{section.3}% 5
 \BOOKMARK [2][-]{subsection.3.3}{Fisher Vector}{section.3}% 6
 \BOOKMARK [1][-]{section.4}{Classification Algorithms}{}% 7
-\BOOKMARK [2][-]{subsection.4.1}{k-Nearest Neighbor }{section.4}% 8
+\BOOKMARK [2][-]{subsection.4.1}{k-Nearest Neighbor \(k-NN\)}{section.4}% 8
 \BOOKMARK [2][-]{subsection.4.2}{Random Forest}{section.4}% 9
-\BOOKMARK [2][-]{subsection.4.3}{Naive Bayes}{section.4}% 10
-\BOOKMARK [2][-]{subsection.4.4}{Neural Networks}{section.4}% 11
-\BOOKMARK [3][-]{subsubsection.4.4.1}{The Perceptron}{subsection.4.4}% 12
-\BOOKMARK [2][-]{subsection.4.5}{Multi-layer Perceptron \(MLP\)}{section.4}% 13
-\BOOKMARK [2][-]{subsection.4.6}{One-vs-the-rest \(OvR\) }{section.4}% 14
-\BOOKMARK [1][-]{section.5}{Image Dataset}{}% 15
-\BOOKMARK [1][-]{section.6}{Comparison}{}% 16
-\BOOKMARK [1][-]{section.7}{Confusion Matrix}{}% 17
-\BOOKMARK [2][-]{subsection.7.1}{BagOfVisualWords}{section.7}% 18
-\BOOKMARK [2][-]{subsection.7.2}{Fisher Vector}{section.7}% 19
-\BOOKMARK [2][-]{subsection.7.3}{VLAD}{section.7}% 20
-\BOOKMARK [1][-]{section.8}{Source Code Repository}{}% 21
-\BOOKMARK [2][-]{subsection.8.1}{K-nearest Neighbors Classifier }{section.8}% 22
-\BOOKMARK [2][-]{subsection.8.2}{Gaussian Naive Bayes Classifier }{section.8}% 23
-\BOOKMARK [2][-]{subsection.8.3}{Random Forest Classifier }{section.8}% 24
-\BOOKMARK [2][-]{subsection.8.4}{One-vs-the-rest Classifier }{section.8}% 25
-\BOOKMARK [2][-]{subsection.8.5}{Multi-layer Perceptron Classifier }{section.8}% 26
-\BOOKMARK [2][-]{subsection.8.6}{Jupyter Notebooks}{section.8}% 27
-\BOOKMARK [1][-]{section.9}{Conclusions}{}% 28
+\BOOKMARK [3][-]{subsubsection.4.2.1}{Decision Trees}{subsection.4.2}% 10
+\BOOKMARK [2][-]{subsection.4.3}{Naive Bayes}{section.4}% 11
+\BOOKMARK [2][-]{subsection.4.4}{Neural Networks}{section.4}% 12
+\BOOKMARK [3][-]{subsubsection.4.4.1}{The Perceptron}{subsection.4.4}% 13
+\BOOKMARK [1][-]{section.5}{Image Dataset}{}% 14
+\BOOKMARK [1][-]{section.6}{Comparison}{}% 15
+\BOOKMARK [1][-]{section.7}{Confusion Matrix}{}% 16
+\BOOKMARK [2][-]{subsection.7.1}{BagOfVisualWords}{section.7}% 17
+\BOOKMARK [2][-]{subsection.7.2}{Fisher Vector}{section.7}% 18
+\BOOKMARK [2][-]{subsection.7.3}{VLAD}{section.7}% 19
+\BOOKMARK [1][-]{section.8}{Source Code Repository}{}% 20
+\BOOKMARK [2][-]{subsection.8.1}{K-nearest Neighbors Classifier }{section.8}% 21
+\BOOKMARK [2][-]{subsection.8.2}{Gaussian Naive Bayes Classifier }{section.8}% 22
+\BOOKMARK [2][-]{subsection.8.3}{Random Forest Classifier }{section.8}% 23
+\BOOKMARK [2][-]{subsection.8.4}{One-vs-the-rest Classifier }{section.8}% 24
+\BOOKMARK [2][-]{subsection.8.5}{Multi-layer Perceptron Classifier }{section.8}% 25
+\BOOKMARK [2][-]{subsection.8.6}{Jupyter Notebooks}{section.8}% 26
+\BOOKMARK [1][-]{section.9}{Conclusions}{}% 27

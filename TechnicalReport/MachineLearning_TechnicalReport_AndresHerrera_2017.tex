@@ -214,24 +214,13 @@ For extraction descriptors, an image annotation mask was used (Figure \ref{mask}
 
 
 
-\section{Image representation}
+\section{Image vector representation}
 
 Recent works \cite{Arandjelovic2013}, \cite{Delhumeau2013}, \cite{Sanchez2013}, \cite{Singh2012}, \cite{Ke2003} on image retrieval and classification have proposed to index images by compact representations encoding powerful local descriptors, such as the closely related VLAD,  Fisher vector, and Bag of visual words. By combining such a representation with a suitable coding technique, it is possible to encode an image in a few dozen bytes while achieving excellent retrieval or classification results. 
 
 \subsection{Bag of Visual Words (BovW)} \label{bow}
 
-To represent an image using the BovW model, an image can be treated as a document. Similarly, "words" in images need to be defined too. To achieve this, it usually includes following three steps: \textbf{feature detection}, \textbf{feature description}, and \textbf{codebook generation}. A definition of the BoW model can be the "histogram representation based on independent features".
-
-\begin{itemize}
-
-\item \textbf{Feature representation} After feature detection, each image is abstracted by several local patches. Feature representation methods deal with how to represent the patches as numerical vectors. These vectors are called feature descriptors. A good descriptor should have the ability to handle intensity, rotation, scale and affine variations to some extent. One of the most famous descriptors is Scale-invariant feature transform (SIFT). SIFT converts each patch to 128-dimensional vector. After this step, each image is a collection of vectors of the same dimension (128 for SIFT), where the order of different vectors is of no importance.
-
-\item \textbf{Codebook generation} The final step for the BovW model is to convert vector-represented patches to "codewords" (analogous to words in text documents), which also produces a "codebook" (analogy to a word dictionary). A codeword can be considered as a representative of several similar patches. One simple method is performing k-means clustering over all the vectors.Codewords are then defined as the centers of the learned clusters. The number of the clusters is the codebook size (analogous to the size of the word dictionary).
-
-\end{itemize}
-
-\noindent
-Thus, each patch in an image is mapped to a certain codeword through the clustering process and the image can be represented by the histogram of the codewords.
+To represent an image using the BovW model (Figure \ref{boww}), an image can be treated as a document. Similarly, "words" in images need to be defined too. To achieve this, it usually includes following three steps: \textbf{feature detection}, \textbf{feature description}, and \textbf{codebook generation}. A definition of the BoW model can be the "histogram representation based on independent features".
 
 \begin{figure}[H] \centering
 	\caption{The bag-of-visual-words technique. Image source \cite{mathw}. }
@@ -240,35 +229,48 @@ Thus, each patch in an image is mapped to a certain codeword through the cluster
 \end{figure}
 
 
+\begin{itemize}
 
-\subsection{VLAD} \label{vlad}
+\item \textbf{Feature representation} After feature detection, each image is abstracted by several local patches. Feature representation methods deal with how to represent the patches as numerical vectors. These vectors are called feature descriptors. A good descriptor should have the ability to handle intensity, rotation, scale and affine variations to some extent. One of the most famous descriptors is Scale-invariant feature transform (SIFT). SIFT converts each patch to 128-dimensional vector. After this step, each image is a collection of vectors of the same dimension (128 for SIFT), where the order of different vectors is of no importance.
 
-VLAD is constructed as follows: regions are extracted from an image using an affine invariant detector, and described using the 128-D SIFT descriptor. Each descriptor is then assigned to the closest cluster of a vocabulary of size $k$ (where $k$ is typically 64 or 256, so that clusters are quite coarse). For each of the k clusters, the residuals (vector differences between descriptors and cluster centers) are accumulated, and the $k$ 128-D sums of residuals are concatenated into a single $k$ × 128 dimensional descriptor \cite{Arandjelovic2013}.The vector of locally aggregated descriptors (VLAD) is an encoding technique that produces a fixed-length vector representation $v$ from a set $X = {x1, . . . , xn}$ of n local d-dimensional descriptors, e.g., SIFTs, extracted from a given image \cite{Delhumeau2013}.
+\item \textbf{Codebook generation} The final step for the BovW model is to convert vector-represented patches to "codewords" (analogous to words in text documents), which also produces a "codebook" (analogy to a word dictionary). A codeword can be considered as a representative of several similar patches. One simple method is performing k-means clustering over all the vectors. Codewords are then defined as the centers of the learned clusters. The number of the clusters is the codebook size (analogous to the size of the word dictionary).
 
-Vector of locally aggregated descriptors(VLAD), which indexes images to compact representations by aggregating the residuals of descriptors.
+\end{itemize}
 
+\noindent
+Thus, each patch in an image is mapped to a certain codeword through the clustering process and the image can be represented by the histogram of the codewords.
 
-
-VLAD(vector of locally aggregated descriptors) is proposed by Jegou[6] in 2010. Similar as
-BOF(bag-of-features)[10], VLAD aims at representing one single image by a fixed number of
-feature vectors aggregated by all feature descriptors extracted from this image. Such a representation is called a VLAD encoding for an image. Initially, VLAD takes all feature
-descriptors from all training images as inputs to cluster them and find a fixed number of centroids
-by K-means[7] as shown in Figure 1 and Figure 2. The collection of these centroids is referred to
-as the codebook. To encode an image using the codebook, the details of processing are elaborated
-as follows. Let N denote the total number of centroids, and $ci(i=1…N)$ denote the centroids.
 
 
 
 
-\cite{Singh2012}
+\subsection{VLAD} \label{vlad}
+
+VLAD is constructed as follows: regions are extracted from an image using an affine invariant detector, and described using the 128-D SIFT descriptor. Each descriptor is then assigned to the closest cluster of a vocabulary of size $k$ (where $k$ is typically 64 or 256, so that clusters are quite coarse). For each of the k clusters, the residuals (vector differences between descriptors and cluster centers) are accumulated, and the $k$ 128-D sums of residuals are concatenated into a single $k$ × 128 dimensional descriptor \cite{Arandjelovic2013}.The vector of locally aggregated descriptors (VLAD) is an encoding technique that produces a fixed-length vector representation $v$ from a set $X = {x1, . . . , xn}$ of n local d-dimensional descriptors, e.g., SIFTs, extracted from a given image \cite{Delhumeau2013}.Vector of locally aggregated descriptors(VLAD), which indexes images to compact representations by aggregating the residuals of descriptors. In the construction of VLAD, each descriptor is first assigned to the closest visual word in a visual codebook in the same way as in the construction of the BovW vector\cite{Uchida2013}.
+Initially, VLAD takes all feature descriptors from all training images as inputs to cluster them and find a fixed number of centroids by K-means. The collection of these centroids is referred to as the codebook. To encode an image using the codebook, the details of processing are elaborated as follows. Let $N$ denote the total number of centroids, and $ci(i=1…N)$ denote the centroids. For further information about VLAD \cite{Arandjelovic2013}, \cite{Jegou2010} and \cite{Singh2012} are useful. VLAD adopts SIFT as the feature descriptors for encoding. SIFT is a well-known feature descriptor which is widely applied in computer vision, object recognition and machine intelligence due to its feature distinctness, robustness, and scale and rotation invariant\cite{Singh2012}.
+
+% Similar as BovW model, VLAD aims at representing one single image by a fixed number of feature vectors aggregated by all feature descriptors extracted from this image. Such a representation is called a VLAD encoding for an image. 
+
 
 \subsection{Fisher Vector} \label{fv}
+
+Fisher vector encoding is based on a visual dictionary learning method using Gaussian Mixture Models (GMM) \cite{Diba}.
+The basic idea of Fisher vector codding (FVC) is to first construct a generative model of local features and use the gradient of the log-likelihood of a particular feature with respect to the model parameters as the feature’s coding vector. When applied as an image representation the FVC vectors of local features are calculated by a pooling operation and normalization to generate the final image representation. FVC has been established as one of the most powerful local feature encoding and image representation generation methods. Gaussian mixture model (GMM) is adopted as the generative model for modeling the local features. The GMM essentially assumes that each local feature is generated from one of the Gaussian distributions in the GMM, and intuitively the mean of each Gaussian distribution serves as a prototype for the local features. Since the dimensionality of the image representation resulting from GMM based FVC is the product of the local feature dimensionality and the number of Gaussians, to make the image representation dimensionality tractable, the number of Gaussians is usually chosen to be few hundred \cite{Liu2016}.\\\\
 
 %http://what-when-how.com/computer-visionimaging-and-computer-graphics/fisher-vectors-beyond-bag-of-visual-words-image-representations-computer-visionimaging-and-computer-graphics-part-1/
 
 %https://www.quora.com/What-is-a-Fisher-vector
 
-The Fisher Vector (FV) can be used to describe an entire image for image classification \cite{Sanchez2013}. \\\\High level picture:
+%They model the visual words with a Gaussian mixture model (GMM), restricted to diagonal variance matrices for each of the k components of the mixture. Deriving a diagonal approximation of the Fisher matrix of a GMM, they obtain a (2d + 1) × k − 1 dimensional vector representation of an image feature set, or d×kdimensional when considering only the components associated with either the means or the variances of the GMM
+\noindent
+The Fisher Vector (FV) can be used to describe an entire image for image classification \cite{Sanchez2013}. \\\\
+
+\begin{figure}[H] \centering
+	\caption{ Fisher vector encoding. }
+	\includegraphics[width=1\textwidth]{fisher.png}
+	\label{fisher}
+\end{figure}
+
 
 \begin{itemize}
 	\item A Gaussian Mixture Model (GMM) is used to model the distribution of features (e.g. SIFT) extracted all over the image.
@@ -276,8 +278,7 @@ The Fisher Vector (FV) can be used to describe an entire image for image classif
 \end{itemize}
 
 \noindent
-Since the GMM parameters represent the first-order moments of the features, the FV encodes second-order moments of the features, roughly.
-
+Since the GMM parameters represent the first-order moments of the features, the FV encodes second-order moments of the features, roughly. Fisher Vector with GMM can be seen as an extension of BovW. Actually, it accumulates the relative position to each cluster center, and models codeword assignment uncertainty, which has shown to be beneficial for BovW encoding\cite{Sun2013}.
 
 
 %representation of images based on an intermediate representation, the visual vocabulary built in the low level feature space.
@@ -290,8 +291,27 @@ Since the GMM parameters represent the first-order moments of the features, the 
 
 \section{Classification Algorithms} \label{classalgs}
 
-\subsection{k-Nearest Neighbor } \label{knn}
-The simplest method is the k-Nearest Neighbor classifier. Here the k points of the training data closest to the test point are found, and a label is given to the test point by a majority vote between the k points. This method is highly intuitive and attains – given its simplicity – remarkably low classification errors, but it is computationally expensive and requires a large memory to store the training data.
+\subsection{k-Nearest Neighbor (k-NN)} \label{knn}
+The simplest method is the k-Nearest Neighbor classifier. Here the k points of the training data closest to the test point are found, and a label is given to the test point by a majority vote between the k points. This method is highly intuitive and attains – given its simplicity – remarkably low classification errors, but it is computationally expensive and requires a large memory to store the training data. k-NN makes predictions using the training dataset directly. Predictions are made for a new instance $(x)$ by searching through the entire training set for the $K$ most similar instances (the neighbors) and summarizing the output variable for those $k$ instances. For regression this might be the mean output variable, in classification this might be the mode (or most common) class value. To determine which of the $k$ instances in the training dataset are most similar to a new input a distance measure is used. For real-valued input variables, the most popular distance measure is \textbf{Euclidean distance}. Euclidean distance is calculated as the square root of the sum of the squared differences between a new point $(x)$ and an existing point $(xi)$ across all input attributes $j$.
+$EuclideanDistance(x, xi) = sqrt( sum( (xj – xij)^2 ) )$
+
+\begin{figure}[H] \centering
+	\caption{ Efficiency of the k-NN algorithm largely depends on the value of k nearest neighbors. }
+	\includegraphics[width=0.4\textwidth]{r_knn_concept.png}
+	\label{knnn}
+\end{figure}
+
+\noindent
+Other popular distance measures include:
+
+\begin{itemize}
+	\item Hamming Distance: Calculate the distance between binary vectors.
+	\item Manhattan Distance: Calculate the distance between real vectors using the sum of their absolute difference.
+	\item Minkowski Distance: Generalization of Euclidean and Manhattan distance.
+\end{itemize}
+
+
+
 
 %\subsection{Linear Discriminant Analysis} \label{lda}
 %computes a hyperplane in the input space that minimizes the within-class variance and maximizes the between class distance. It can be efficiently computed in the linear case even with large data sets. However, often a linear separation is not sufficient. Nonlinear extensions by using kernels exist, however, making it difficult to apply it to problems with large training sets.
@@ -302,7 +322,15 @@ The simplest method is the k-Nearest Neighbor classifier. Here the k points of t
 
 \subsection{Random Forest} \label{randomf}
 
-Random forests is an ensemble model which means that it uses the results from many different models to calculate a response. In most cases the result from an ensemble model will be better than the result from any one of the individual models. In the case of random forests, several decision trees are created (grown) and the response is calculated based on the outcome of all of the decision trees \cite{Horning2010}.   A random forest multi-way classifier consists of a number of trees, with each tree grown using some form of randomization. The leaf nodes of each tree are labeled by estimates of the posterior distribution over the image classes. Each internal node contains a test that best splits the space of data to be classified. An image is classified by sending it down every tree and aggregating the reached leaf distributions. Randomness can be injected at two points during training: in subsampling the training data so that each tree is grown using a different subset; and in selecting the node tests \cite{Bosch2007}.
+Random forests is an ensemble model which means that it uses the results from many different models to calculate a response. In most cases the result from an ensemble model will be better than the result from any one of the individual models. In the case of random forests, several decision trees are created (grown) and the response is calculated based on the outcome of all of the decision trees \cite{Horning2010}.   A random forest multi-way classifier consists of a number of trees, with each tree grown using some form of randomization. The leaf nodes of each tree are labeled by estimates of the posterior distribution over the image classes. Each internal node contains a test that best splits the space of data to be classified. An image is classified by sending it down every tree and aggregating the reached leaf distributions. Randomness can be injected at two points during training: in subsampling the training data so that each tree is grown using a different subset; and in selecting the node tests\cite{Bosch2007}.A random forest is a meta estimator that fits a number of decision tree classifiers on various sub-samples of the dataset and use averaging to improve the predictive accuracy and control over-fitting. In order to prevent over-fitting the maximum depth of the tree selected was 2 as seen in the following Jupyter Notebook file:
+
+\begin{itemize}
+	\item {\textbf{Random Forest over-fitting :} } \url{https://github.com/AndresHerrera/Proyecto_MachineLearning/blob/master/JupyterNotebook/BagOfVisualWords_RF_Eval.ipynb}
+\end{itemize}
+
+\subsubsection{Decision Trees} \label{dectree}
+These algorithms solve the classification problem by repeatedly partitioning the in put space, so as to build a tree whose nodes are as pure as possible (that is, they contain points of a single class). Classification of a
+new test point is achieved by moving from top to bottom along the branches of the tree, starting from the root node, until a terminal node is reached. Decision trees are simple yet effective classification schemes for small datasets. The computational complexity scales unfavorably with the number of dimensions of the data. Large datasets tend to result in complicated trees, which in turn require a large memory for storage. 
 
 
 
@@ -310,53 +338,17 @@ Random forests is an ensemble model which means that it uses the results from ma
 %https://www.analyticsvidhya.com/blog/2017/09/naive-bayes-explained/
 %http://dataaspirant.com/2017/02/06/naive-bayes-classifier-machine-learning/
 
-It is a classification technique based on Bayes’ Theorem with an assumption of independence among predictors. In simple terms, a Naive Bayes classifier assumes that the presence of a particular feature in a class is unrelated to the presence of any other feature. For example, a fruit may be considered to be an apple if it is red, round, and about 3 inches in diameter. Even if these features depend on each other or upon the existence of the other features, all of these properties independently contribute to the probability that this fruit is an apple and that is why it is known as ‘Naive’.
-
-Naive Bayes model is easy to build and particularly useful for very large data sets. Along with simplicity, Naive Bayes is known to outperform even highly sophisticated classification methods.
-
-Bayes theorem provides a way of calculating posterior probability P(c|x) from P(c), P(x) and P(x|c). Look at the equation below:
-
-
-
-Naive Bayes is a kind of classifier which uses the Bayes Theorem. It predicts membership probabilities for each class such as the probability that given record or data point belongs to a particular class.  The class with the highest probability is considered as the most likely class. This is also known as Maximum A Posteriori (MAP).
-
-The MAP for a hypothesis is:
-MAP(H)
-$= max( P(H|E) )
-=  max( (P(E|H)*P(H))/P(E))
-= max(P(E|H)*P(H))
-$
-
-P(E) is evidence probability, and it is used to normalize the result. It remains same so, removing it won’t affect.
-
-Naive Bayes classifier assumes that all the features are unrelated to each other. Presence or absence of a feature does not influence the presence or absence of any other feature. We can use Wikipedia example for explaining the logic i.e.,
-
-A fruit may be considered to be an apple if it is red, round, and about 4″ in diameter.  Even if these features depend on each other or upon the existence of the other features, a naive Bayes classifier considers all of these properties to independently contribute to the probability that this fruit is an apple.
-
-In real datasets, we test a hypothesis given multiple evidence(feature). So, calculations become complicated. To simplify the work, the feature independence approach is used to ‘uncouple’ multiple evidence and treat each as an independent one.
-
-P(H|Multiple Evidences) =  P(E1| H)* P(E2|H) ……*P(En|H) * P(H) / P(Multiple Evidences)
-
-
+It is a classification technique based on Bayes theorem \cite{Triola} with an assumption of independence among predictors. In simple terms, a Naive Bayes classifier assumes that the presence of a particular feature in a class is unrelated to the presence of any other feature. Naive Bayes model is easy to build and particularly useful for very large data sets. Along with simplicity, Naive Bayes is known to outperform even highly sophisticated classification methods. Bayes theorem provides a way of calculating posterior probability $P(c|x)$ from $P(c)$, $P(x)$ and $P(x|c)$. It predicts membership probabilities for each class such as the probability that given record or data point belongs to a particular class.  The class with the highest probability is considered as the most likely class. Naive Bayes classifier assumes that all the features are unrelated to each other. Presence or absence of a feature does not influence the presence or absence of any other feature. For further information about Naive Bayes this survey \cite{Jiang2007} is useful.
 
 \subsection{Neural Networks} \label{neuralnetwork}
 
 Neural networks are a computational model inspired by the connectivity of neurons in animate nervous systems.
-A further boost to their popularity came with the proof that they can approximate any function mapping via the Universal Approximation Theorem. 
-
-\begin{figure}[H] \centering
-	\includegraphics[width=0.4\textwidth]{image5.png}
-	\caption{A schematic diagram of a neural network. Each circle in the hidden and output layer is a computational element known as a neuron. }
-	\label{figure5}
-\end{figure}
-
-
-A simple scheme for a neural network is shown in Figure \ref{figure5}. Each circle denotes a computational element referred to as a neuron, which computes a weighted sum of its inputs, and possibly performs a nonlinear function on this sum. If certain classes of nonlinear functions are used, the function computed by the network can approximate any function (specifically a mapping from the training patterns to the training targets), provided enough neurons exist in the network and enough training examples are provided.
+A further boost to their popularity came with the proof that they can approximate any function mapping via the Universal Approximation Theorem \cite{Ratsch2004}. 
 
 
 \subsubsection{The Perceptron} \label{perc}
 
-A perceptron has one or more inputs, a bias, an activation function, and a single output. The perceptron receives inputs, multiplies them by some weight, and then passes them into an activation function to produce an output. There are many possible activation functions to choose from, such as the logistic function, a trigonometric function, a step function etc. We must also make sure to add a bias to the perceptron, a constant weight outside of the inputs that allows us to achieve better fit for our predictive models. Check out the diagram below for a visualization of a perceptron:
+A perceptron has one or more inputs, a bias, an activation function, and a single output. The perceptron receives inputs, multiplies them by some weight, and then passes them into an activation function to produce an output. There are many possible activation functions to choose from, such as the logistic function, a trigonometric function, a step function among others.
 
 \begin{figure}[H] \centering
 	\includegraphics[width=0.4\textwidth]{perceptron.png}
@@ -364,35 +356,42 @@ A perceptron has one or more inputs, a bias, an activation function, and a singl
 	\label{perceptron}
 \end{figure}
 
-Once we have the output we can compare it to a known label and adjust the weights accordingly (the weights usually start off with random initialization values). We keep repeating this process until we have reached a maximum number of allowed iterations, or an acceptable error rate.
-
-To create a neural network, we simply begin to add layers of perceptrons together, creating a multi-layer perceptron model of a neural network. You’ll have an input layer which directly takes in your data and an output layer which will create the resulting outputs. Any layers in between are known as hidden layers because they don’t directly “see” the feature inputs within the data you feed in or the outputs. For a visualization of this check out the diagram below (source: Wikipedia).
-
-
-\subsection{Multi-layer Perceptron (MLP)} \label{mlp}
-%https://www.hiit.fi/u/ahonkela/dippa/node41.html
-%http://scikit-learn.org/stable/modules/neural_networks_supervised.html
+\noindent
+To create a neural network, layers of perceptrons must be added together, creating a multi-layer perceptron model of a neural network. An input layer which directly takes in your data and an output layer which will create the resulting outputs. Any layers in between are known as hidden layers because they don’t directly “see” the feature inputs within the data you feed in or the outputs.  Multi Layer perceptron (MLP) is a feedforward neural network with one or more layers between input and output layer. Feedforward means that data flows in one direction from input to output layer (forward). This type of network is trained with the backpropagation learning algorithm. MLPs are widely used for pattern classification, recognition, prediction and approximation. Multi Layer Perceptron can solve problems which are not linearly separable. A simple scheme for a MLP neural network is shown in Figure \ref{figure5}. Each circle denotes a computational element referred to as a neuron, which computes a weighted sum of its inputs, and possibly performs a nonlinear function on this sum. If certain classes of nonlinear functions are used, the function computed by the network can approximate any function (specifically a mapping from the training patterns to the training targets), provided enough neurons exist in the network and enough training examples are provided.
 
 \begin{figure}[H] \centering
-	\includegraphics[width=0.4\textwidth]{mlp.png}
-	\caption{Graph of an MLP }
-	\label{mlpg}
+	\includegraphics[width=0.3\textwidth]{mlp.png}
+	\caption{A schematic diagram of a neural network. Each circle in the hidden and output layer is a computational element known as a neuron. }
+	\label{figure5}
 \end{figure}
 
 
 
 
-\subsection{One-vs-the-rest (OvR) } \label{ovr}
 
-Also known as one-vs-all, this strategy consists in fitting one classifier per class. For each classifier, the class is fitted against all the other classes. In addition to its computational efficiency (only nclasses classifiers are needed), one advantage of this approach is its interpretability. Since each class is represented by one and one classifier only, it is possible to gain knowledge about the class by inspecting its corresponding classifier. This is the most commonly used strategy for multiclass classification and is a fair default choice.
+%
+%\subsection{Multi-layer Perceptron (MLP)} \label{mlp}
+%%https://www.hiit.fi/u/ahonkela/dippa/node41.html
+%%http://scikit-learn.org/stable/modules/neural_networks_supervised.html
+%
+%\begin{figure}[H] \centering
+%	\includegraphics[width=0.4\textwidth]{mlp.png}
+%	\caption{Graph of an MLP }
+%	\label{mlpg}
+%\end{figure}
 
-This strategy can also be used for multilabel learning, where a classifier is used to predict multiple labels for instance, by fitting on a 2-d matrix in which cell [i, j] is 1 if sample i has label j and 0 otherwise.
 
-In the multilabel learning literature, OvR is also known as the binary relevance method.
+
+
+%\subsection{One-vs-the-rest (OvR) } \label{ovr}
+%
+%Also known as one-vs-all, this strategy consists in fitting one classifier per class. For each classifier, the class is fitted against all the other classes. In addition to its computational efficiency (only nclasses classifiers are needed), one advantage of this approach is its interpretability. Since each class is represented by one and one classifier only, it is possible to gain knowledge about the class by inspecting its corresponding classifier. This is the most commonly used strategy for multiclass classification and is a fair default choice.
+%
+%This strategy can also be used for multilabel learning, where a classifier is used to predict multiple labels for instance, by fitting on a 2-d matrix in which cell [i, j] is 1 if sample i has label j and 0 otherwise.
+%
+%In the multilabel learning literature, OvR is also known as the binary relevance method.
 
 %http://scikit-learn.org/stable/modules/generated/sklearn.multiclass.OneVsRestClassifier.html
-
-
 
 
 \section{Image Dataset}
@@ -441,6 +440,14 @@ The following Jupyter Notebook file shows how the files were read
 	\label{class}
 \end{figure}
 
+\noindent
+In multilabel classification, mean accuracy on the given test data and labels.  If the entire set of predicted labels for a sample strictly match with the true set of labels, then the subset accuracy is 1.0; otherwise it is 0.0.
+
+\begin{figure}[H] \centering
+	\includegraphics[width=0.8\textwidth]{graph.png}
+	\caption{Comparision results of classifiers and Image descriptors (mean accuracy )  }
+	\label{graph}
+\end{figure}
 
 \section{Confusion Matrix} \label{cmatrix}
 
@@ -567,7 +574,7 @@ The entries in the confusion matrix have the following meaning in the context of
 
 \section{Source Code Repository}
 
-Python code blocks and running results are available on GitHub over Jupyter Notebook
+Python code blocks and running results are available on GitHub over Jupyter Notebooks
 
 \subsection{K-nearest Neighbors Classifier }
 
