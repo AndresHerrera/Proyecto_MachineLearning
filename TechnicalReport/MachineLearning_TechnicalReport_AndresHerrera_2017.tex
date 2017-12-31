@@ -645,15 +645,16 @@ Python code blocks and running results are available on GitHub over Jupyter Note
 
 	
 	
-\section{Conclusions}
+\section{Conclusions and discussion}
 
 The artificial neural network Multi-layer perceptron performed best results in the crop/weed classification with an accuracy score upper 91\% on the test set in image representation with SIFT + BagOfVisualWords and SIFT + Fisher Vector, likewise, in SIFT + VLAD  was the best one with accuracy score upper 86\%. Gaussian Naive Bayes classifier was the worst performer in SIFT+BagOfVisualWords and SIFT+VLAD image representation, however, in SIFT+Fisher Vector the scoring accuracy was upper 91\%.\\\\
 \noindent
 The confusion matrix used gave a better idea of what classification model is getting right and was used for summarizing the performance of classification algorithms evaluated. \\\\
 \noindent
-Combination of Multi-layer Perceptron with SIFT + Fisher Vector gets a richer feature vector from images compared to SIFT + BagOfVisualWords  or  SIFT + VLAD achieving thus an accuracy score upper 97\% on the test set.
-
-
+A combination of Multi-layer Perceptron with SIFT + Fisher Vector gets a richer feature vector from images compared to SIFT + BagOfVisualWords  or  SIFT + VLAD achieving thus an accuracy score upper 97\% on the test set.\\\\
+\noindent
+The use of BovW, VLAD and FV encodings is justified by the need for increasing efficiency and reducing
+computing resources for image matching or classification on a large datasets.
 
 \section*{Acknowledgments}
 
