@@ -157,41 +157,6 @@ There are literally thousands of learning algorithms available. The key to not g
 \end{itemize}
 
 
-\subsection{Image Dataset}
-
-The dataset comprises field images in top-down view that were acquired with the autonomous field robot Bonirob\cite{BOSH} in an organic carrot farm in 2013. The images were captured while the crop was in growth stages where one or more true leaves were present. All images are annotated and a ground truth vegetation segmentation mask is available together with crop/weed annotations. Figure \ref{figure1} shows a field image (a), a segmentation mask (b) and Crop/weed annotation image (c) even a file in YAML format with a list of polygon vertices and labels.
-
-\begin{figure}[H] \centering
-	\includegraphics[width=1\textwidth]{image1.png}
-	\caption{Sample images from the dataset (a) with ground truth vegetation masks
-		and crop /weed annotations. The annotation images (b) and (c) are supplied for
-		every image of the dataset. Modified from \cite{Haug2015}. }
-	\label{figure1}
-\end{figure}
-
-
-\noindent
-The dataset images ware acquired by a JAI multi-spectral camera that captures both visible and near-infrared light was used and mounted on the robot. The camera was looking downwards and the area under the robot was shaded and artificially lit to avoid changing lighting conditions. Figure \ref{figure2} describes the camera setup and its configuration.
-
-\begin{figure}[H] \centering
-	\caption{Description of camera system and acquisition parameters. Modified from \cite{Haug2015}. }
-	\includegraphics[width=0.6\textwidth]{image2.png}
-	\label{figure2}
-\end{figure}
-
-\noindent
-The Crop /Weed Field Image Dataset (CWFID) was downloaded from:
-\begin{itemize}
-	\item {\textbf{CWFID Image Dataset:} } \url{http://github.com/cwfid}
-	
-\end{itemize}
-
-\noindent
-The following Jupyter Notebook file shows how the files were read 
-
-\begin{itemize}
-	\item {\textbf{Reading Crop and Weed Dataset:} } \url{https://github.com/AndresHerrera/Proyecto_MachineLearning/blob/master/JupyterNotebook/ReadCropWeedDataset.ipynb}
-\end{itemize}
 
 \section{Scale-invariant feature transform (SIFT) descriptor} \label{sift}
 The scale-invariant feature transform (SIFT) is an algorithm in computer vision to detect and describe local features in images. A SIFT descriptor is a 3-D spatial histogram of the image gradients in characterizing the appearance of a keypoint. The gradient at each pixel is regarded as a sample of a three-dimensional elementary feature vector, formed by the pixel location and the gradient orientation. Samples are weighed by the gradient norm and accumulated in a 3-D histogram h, which (up to normalization and clamping) forms the SIFT descriptor of the region. An additional Gaussian weighting function is applied to give less importance to gradients farther away from the keypoint center. Orientations are quantized into eight bins and the spatial coordinates into four each, as seen in Figure \ref{figure6}:
@@ -215,7 +180,7 @@ SIFT, as described in \cite{Ke2003}, consists of four major stages:
 \end{itemize}
 
 \noindent
-In the first stage, potential interest points are identified by scanning the image over location and scale. This is implemented efficiently by constructing a Gaussian pyramid and searching for local peaks in a series of difference-of-Gaussian (DoG) images. In the second stage, candidate keypoints are localized to sub-pixel accuracy and eliminated if found to be unstable. The third identifies the dominant orientations for each keypoint based on its local image patch. The assigned orientation(s), scale and location for each keypoint enables SIFT to construct a canonical view for the keypoint that is invariant to similarity transforms. The final stage builds a local image descriptor for each keypoint, based upon the image gradients in its local neighborhood. The final (keypoint descriptor) stage of the SIFT algorithm builds a representation for each keypoint based on a patch of pixels in its local neighborhood. Keypoint descriptors typically uses a set of 16 histograms, aligned in a 4x4 grid, each with 8 orientation bins, one for each of the main compass directions and one for each of the mid-points of these directions. This results in a feature vector containing 128 elements. This 128-element vector is then normalized to unit length and thresholded to remove elements with small values.  it is fairly compact, expressing the patch of pixels using a 128 element vector.
+In the first stage, potential interest points are identified by scanning the image over location and scale. This is implemented efficiently by constructing a Gaussian pyramid and searching for local peaks in a series of difference-of-Gaussian (DoG) images. In the second stage, candidate keypoints are localized to sub-pixel accuracy and eliminated if found to be unstable. The third identifies the dominant orientations for each keypoint based on its local image patch. The assigned orientation(s), scale and location for each keypoint enables SIFT to construct a canonical view for the keypoint that is invariant to similarity transforms. The final stage builds a local image descriptor for each keypoint, based upon the image gradients in its local neighborhood. The final (keypoint descriptor) stage of the SIFT algorithm builds a representation for each keypoint based on a patch of pixels in its local neighborhood. Keypoint descriptors typically uses a set of 16 histograms, aligned in a 4x4 grid, each with 8 orientation bins, one for each of the main compass directions and one for each of the mid-points of these directions. This results in a feature vector containing 128 elements. This 128-element vector is then normalized to unit length and thresholded to remove elements with small values.  it is fairly compact, expressing the patch of pixels using a 128 element vector as seen in Figure \ref{sit1}.
 
 \begin{itemize}
 	\item {{There is an example of extraction of SIFT descriptors for a single image of the crop/weed dataset:} } \url{https://github.com/AndresHerrera/Proyecto_MachineLearning/blob/master/JupyterNotebook/SIFT_Descriptors.ipynbb}
@@ -228,7 +193,7 @@ In the first stage, potential interest points are identified by scanning the ima
 \end{figure}
 
 \noindent
-For extraction descriptors, an image annotation mask was used.  Soil background was removed using image preprocessing.
+For extraction descriptors, an image annotation mask was used (Figure \ref{mask}). Soil background was removed using image preprocessing.
 
 \begin{figure}[H] \centering
 	\caption{Crop/weed mask image annotation - (blue) corresponds to crop and (green) to weed. }
@@ -251,7 +216,7 @@ For extraction descriptors, an image annotation mask was used.  Soil background 
 
 \section{Image representation}
 
-Recent works on image retrieval and classification have proposed to index images by compact representations encoding powerful local descriptors, such as the closely related VLAD,  Fisher vector, and Bag of visual words. By combining such a representation with a suitable coding technique, it is possible to encode an image in a few dozen bytes while achieving excellent retrieval or classification results. 
+Recent works \cite{Arandjelovic2013}, \cite{Delhumeau2013}, \cite{Sanchez2013}, \cite{Singh2012}, \cite{Ke2003} on image retrieval and classification have proposed to index images by compact representations encoding powerful local descriptors, such as the closely related VLAD,  Fisher vector, and Bag of visual words. By combining such a representation with a suitable coding technique, it is possible to encode an image in a few dozen bytes while achieving excellent retrieval or classification results. 
 
 \subsection{Bag of Visual Words (BovW)} \label{bow}
 
@@ -265,7 +230,14 @@ To represent an image using the BovW model, an image can be treated as a documen
 
 \end{itemize}
 
+\noindent
 Thus, each patch in an image is mapped to a certain codeword through the clustering process and the image can be represented by the histogram of the codewords.
+
+\begin{figure}[H] \centering
+	\caption{The bag-of-visual-words technique. Image source \cite{mathw}. }
+	\includegraphics[width=1\textwidth]{bagoffeatures_visualwordsoverview.png}
+	\label{boww}
+\end{figure}
 
 
 
@@ -309,6 +281,8 @@ Since the GMM parameters represent the first-order moments of the features, the 
 
 
 %representation of images based on an intermediate representation, the visual vocabulary built in the low level feature space.
+
+
 
 
 
@@ -420,11 +394,49 @@ In the multilabel learning literature, OvR is also known as the binary relevance
 
 
 
+
+\section{Image Dataset}
+
+The dataset comprises field images in top-down view that were acquired with the autonomous field robot Bonirob\cite{BOSH} in an organic carrot farm in 2013. The images were captured while the crop was in growth stages where one or more true leaves were present. All images are annotated and a ground truth vegetation segmentation mask is available together with crop/weed annotations. Figure \ref{figure1} shows a field image (a), a segmentation mask (b) and Crop/weed annotation image (c) even a file in YAML format with a list of polygon vertices and labels.
+
+\begin{figure}[H] \centering
+	\includegraphics[width=1\textwidth]{image1.png}
+	\caption{Sample images from the dataset (a) with ground truth vegetation masks
+		and crop /weed annotations. The annotation images (b) and (c) are supplied for
+		every image of the dataset. Modified from \cite{Haug2015}. }
+	\label{figure1}
+\end{figure}
+
+
+\noindent
+The dataset images ware acquired by a JAI multi-spectral camera that captures both visible and near-infrared light was used and mounted on the robot. The camera was looking downwards and the area under the robot was shaded and artificially lit to avoid changing lighting conditions. Figure \ref{figure2} describes the camera setup and its configuration.
+
+\begin{figure}[H] \centering
+	\caption{Description of camera system and acquisition parameters. Modified from \cite{Haug2015}. }
+	\includegraphics[width=0.6\textwidth]{image2.png}
+	\label{figure2}
+\end{figure}
+
+\noindent
+The Crop /Weed Field Image Dataset (CWFID) was downloaded from:
+\begin{itemize}
+	\item {\textbf{CWFID Image Dataset:} } \url{http://github.com/cwfid}
+	
+\end{itemize}
+
+\noindent
+The following Jupyter Notebook file shows how the files were read 
+
+\begin{itemize}
+	\item {\textbf{Reading Crop and Weed Dataset:} } \url{https://github.com/AndresHerrera/Proyecto_MachineLearning/blob/master/JupyterNotebook/ReadCropWeedDataset.ipynb}
+\end{itemize}
+
+
 \section{Comparison} \label{Comparison}
 
 
 \begin{figure}[H] \centering
-	\caption*{Table 7.1:  Comparison of machine learning classifiers over different image descriptors. }
+	\caption*{Table 6.1:  Comparison of machine learning classifiers over different image descriptors. }
 	\includegraphics[width=0.8\textwidth]{class.png}
 	\label{class}
 \end{figure}
@@ -456,31 +468,31 @@ The entries in the confusion matrix have the following meaning in the context of
 \subsection{BagOfVisualWords}
 
 \begin{figure}[H] \centering
-	\caption*{Table 8.1: Confusion matrix for K-nearest neighbors classifier. }
+	\caption*{Table 7.1: Confusion matrix for K-nearest neighbors classifier. }
 	\includegraphics[width=0.8\textwidth]{m1.png}
 	\label{m1}
 \end{figure}
 
 \begin{figure}[H] \centering
-	\caption*{Table 8.2: Confusion matrix for Multi-layer Perceptron classifier. }
+	\caption*{Table 7.2: Confusion matrix for Multi-layer Perceptron classifier. }
 	\includegraphics[width=0.8\textwidth]{m2.png}
 	\label{m2}
 \end{figure}
 
 \begin{figure}[H] \centering
-	\caption*{Table 8.3: Confusion matrix for Gaussian Naive Bayes classifier. }
+	\caption*{Table 7.3: Confusion matrix for Gaussian Naive Bayes classifier. }
 	\includegraphics[width=0.8\textwidth]{m3.png}
 	\label{m3}
 \end{figure}
 
 \begin{figure}[H] \centering
-	\caption*{Table 8.4: Confusion matrix for One-vs-the-rest classifier. }
+	\caption*{Table 7.4: Confusion matrix for One-vs-the-rest classifier. }
 	\includegraphics[width=0.8\textwidth]{m4.png}
 	\label{m4}
 \end{figure}
 
 \begin{figure}[H] \centering
-	\caption*{Table 8.5: Confusion matrix for Random Forest classifier. }
+	\caption*{Table 7.5: Confusion matrix for Random Forest classifier. }
 	\includegraphics[width=0.8\textwidth]{m5.png}
 	\label{m5}
 \end{figure}
@@ -488,31 +500,31 @@ The entries in the confusion matrix have the following meaning in the context of
 \subsection{Fisher Vector}
 
 \begin{figure}[H] \centering
-	\caption*{Table 8.6: Confusion matrix for K-nearest neighbors classifier. }
+	\caption*{Table 7.6: Confusion matrix for K-nearest neighbors classifier. }
 	\includegraphics[width=0.8\textwidth]{m6.png}
 	\label{m6}
 \end{figure}
 
 \begin{figure}[H] \centering
-	\caption*{Table 8.7: Confusion matrix for Multi-layer Perceptron classifier. }
+	\caption*{Table 7.7: Confusion matrix for Multi-layer Perceptron classifier. }
 	\includegraphics[width=0.8\textwidth]{m7.png}
 	\label{m7}
 \end{figure}
 
 \begin{figure}[H] \centering
-	\caption*{Table 8.8: Confusion matrix for Gaussian Naive Bayes classifier. }
+	\caption*{Table 7.8: Confusion matrix for Gaussian Naive Bayes classifier. }
 	\includegraphics[width=0.8\textwidth]{m8.png}
 	\label{m8}
 \end{figure}
 
 \begin{figure}[H] \centering
-	\caption*{Table 8.9: Confusion matrix for One-vs-the-rest classifier. }
+	\caption*{Table 7.9: Confusion matrix for One-vs-the-rest classifier. }
 	\includegraphics[width=0.8\textwidth]{m9.png}
 	\label{m9}
 \end{figure}
 
 \begin{figure}[H] \centering
-	\caption*{Table 8.10: Confusion matrix for Random Forest classifier. }
+	\caption*{Table 7.10: Confusion matrix for Random Forest classifier. }
 	\includegraphics[width=0.8\textwidth]{m10.png}
 	\label{m10}
 \end{figure}
@@ -521,31 +533,31 @@ The entries in the confusion matrix have the following meaning in the context of
 \subsection{VLAD}
 
 \begin{figure}[H] \centering
-	\caption*{Table 8.11: Confusion matrix for K-nearest neighbors classifier. }
+	\caption*{Table 7.11: Confusion matrix for K-nearest neighbors classifier. }
 	\includegraphics[width=0.8\textwidth]{m11.png}
 	\label{m11}
 \end{figure}
 
 \begin{figure}[H] \centering
-	\caption*{Table 8.12: Confusion matrix for Multi-layer Perceptron classifier. }
+	\caption*{Table 7.12: Confusion matrix for Multi-layer Perceptron classifier. }
 	\includegraphics[width=0.8\textwidth]{m12.png}
 	\label{m12}
 \end{figure}
 
 \begin{figure}[H] \centering
-	\caption*{Table 8.13: Confusion matrix for Gaussian Naive Bayes classifier. }
+	\caption*{Table 7.13: Confusion matrix for Gaussian Naive Bayes classifier. }
 	\includegraphics[width=0.8\textwidth]{m13.png}
 	\label{m13}
 \end{figure}
 
 \begin{figure}[H] \centering
-	\caption*{Table 8.14: Confusion matrix for One-vs-the-rest classifier. }
+	\caption*{Table 7.14: Confusion matrix for One-vs-the-rest classifier. }
 	\includegraphics[width=0.8\textwidth]{m14.png}
 	\label{m14}
 \end{figure}
 
 \begin{figure}[H] \centering
-	\caption*{Table 8.15: Confusion matrix for Random Forest classifier. }
+	\caption*{Table 7.15: Confusion matrix for Random Forest classifier. }
 	\includegraphics[width=0.8\textwidth]{m15.png}
 	\label{m15}
 \end{figure}
